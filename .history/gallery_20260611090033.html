@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery | CITAM Valley Road</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* =========================================================================
+           FIXED: Hero Visibility Overrides
+           ========================================================================= */
+        .parallax-hero {
+            position: relative;
+            width: 100%;
+            min-height: 500px; /* Forces section to have height */
+            padding-top: 150px; /* Pushes content below the fixed header */
+            padding-bottom: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--dark);
+            overflow: hidden;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            background: linear-gradient(to bottom, rgba(17, 17, 17, 0.7), var(--dark)), 
+                        url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+            background-size: cover;
+        }
+
+        .parallax-content {
+            position: relative;
+            z-index: 5; /* Ensures content stays above background */
+            color: var(--white);
+        }
+
+        /* Gallery Grid Layout */
+        .artistic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="gallery-page">
+
+    <div class="top-bar">
+        <div class="container top-bar-flex">
+            <div class="top-info">
+                <span><i class="fas fa-phone-alt"></i> +254 709 861 150</span>
+                <span><i class="fas fa-envelope"></i> valleyroad@citam.org</span>
+            </div>
+        </div>
+    </div>
+
+    <header class="header" id="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">CITAM Valley Road</a>
+            <nav class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="gallery.html" class="active">Gallery</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <header class="parallax-hero">
+        <div class="parallax-bg"></div>
+        <div class="container text-center parallax-content">
+            <span class="text-primary" style="display: block; margin-bottom: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">
+                Moments in Time
+            </span>
+            <h1 style="font-size: 4.5rem; letter-spacing: -2px; margin-bottom: 25px;">
+                Visual Archive
+            </h1>
+            <p style="font-size: 1.2rem; opacity: 0.8;">
+                A curated look into our worship experiences and community impact.
+            </p>
+        </div>
+    </header>
+
+    <section class="section" style="padding: 60px 0;">
+        <div class="container">
+            <div class="artistic-grid" id="media-grid">
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3" alt="Worship"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4" alt="Fellowship"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368" alt="Youth"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" style="background: #050505; color: white; padding: 40px 0;">
+        <div class="container text-center">
+            <p>&copy; 2026 CITAM Valley Road. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    navMenu.classList.toggle('show');
+                });
+            }
+
+            // Scroll animations for non-hero elements
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('active');
+                });
+            });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>s

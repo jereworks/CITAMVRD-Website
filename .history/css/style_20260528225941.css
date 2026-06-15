@@ -1,0 +1,1599 @@
+/* ==========================================================================
+   1. GLOBAL ARCHITECTURE & DESIGN TOKENS
+   ========================================================================== */
+:root {
+    /* Brand Identity Palette */
+    --primary: #c1121f;
+    --primary-hover: #780000;
+    --dark: #111111;
+    --light: #f8f9fa;
+    --white: #ffffff;
+    --text-main: #333333;
+    --text-muted: #666666;
+    --border-color: rgba(0, 0, 0, 0.06);
+
+    /* Performance & Smoothness Matrices */
+    --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* Depth Layers */
+    --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.01);
+    --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.06);
+    --shadow-elevated: 0 30px 60px rgba(0, 0, 0, 0.08);
+    
+    /* Typography Rules */
+    --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Master Core Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-shadow: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-stack);
+    background-color: var(--white);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   2. REUSABLE SYSTEM LAYOUTS & UTILITIES
+   ========================================================================== */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+.section {
+    padding: 90px 0;
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+/* Utility Fills & Colors */
+.bg-white { background-color: var(--white); }
+.bg-light { background-color: var(--light); }
+.text-center { text-align: center; }
+.text-primary { color: var(--primary); }
+.alignment-center { align-items: center; }
+
+/* Structural Spacing Matrices */
+.mb-2 { margin-bottom: 2rem; }
+.mb-4 { margin-bottom: 4rem; }
+.mt-2 { margin-top: 2rem; }
+.mt-4 { margin-top: 4rem; }
+.max-width-text { max-width: 650px; margin: 0 auto; color: var(--text-muted); font-size: 1rem; }
+
+/* Typography Formatting Blocks */
+.section-subtitle {
+    display: block;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.section-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--dark);
+}
+
+.img-fluid {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Base Structural Grid Systems */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); }
+.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); }
+
+.gap-2 { gap: 1.5rem; }
+.gap-3 { gap: 2.5rem; }
+.gap-4 { gap: 4rem; }
+
+/* Global System Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition-smooth);
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-full {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--light);
+    color: var(--dark);
+}
+
+/* ==========================================================================
+   3. GLOBAL NAVIGATION BAR SYSTEM
+   ========================================================================== */
+.global-navbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+.nav-brand {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--dark);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-icon {
+    color: var(--primary);
+    font-size: 1.4rem;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #444;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+.nav-links a:hover, 
+.nav-links a.active {
+    color: var(--primary);
+}
+
+.nav-links a.nav-cta {
+    background: var(--primary);
+    color: var(--white);
+    padding: 10px 22px;
+    font-weight: 600;
+}
+
+.nav-links a.nav-cta:hover {
+    background: var(--primary-hover);
+}
+
+/* ==========================================================================
+   4. HOME & ABOUT US HERO BANNER ARRAYS
+   ========================================================================== */
+/* Standard Inner Page Sub-Hero Banner */
+.about-hero-banner {
+    background: linear-gradient(rgba(17, 17, 17, 0.85), rgba(17, 17, 17, 0.85)), 
+                url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+    padding: 140px 0 110px;
+    color: var(--white);
+}
+
+.hero-pre-tag {
+    display: inline-block;
+    color: var(--primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.about-hero-banner h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+.hero-subtext {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.15rem;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   5. SAFARI SMALL GROUPS & COMMUNITY SECTIONS
+   ========================================================================== */
+.safari-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    padding: 35px 25px;
+    transition: var(--transition-smooth);
+}
+
+.safari-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-5px);
+    border-color: rgba(193, 18, 31, 0.15);
+}
+
+/* ==========================================================================
+   6. MINISTRIES ECOSYSTEM CARDS
+   ========================================================================== */
+.border-bottom-soft {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ministry-item-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ministry-item-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-8px);
+    border-color: rgba(193, 18, 31, 0.15);
+}
+
+.ministry-image-frame {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--dark);
+    height: 220px;
+}
+
+.ministry-image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-image-frame img {
+    transform: scale(1.08);
+    opacity: 0.85;
+}
+
+.ministry-icon-badge {
+    position: absolute;
+    bottom: -20px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 20px rgba(193, 18, 31, 0.3);
+    z-index: 5;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-icon-badge {
+    transform: translateY(-5px) rotate(360deg);
+}
+
+.ministry-content-body {
+    padding: 35px 25px 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.ministry-content-body h3 {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+    color: var(--dark);
+}
+
+.affinity-tag {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--primary);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.ministry-content-body p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 25px;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.ministry-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--dark);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+    margin-top: auto;
+    text-decoration: none;
+}
+
+.ministry-link i {
+    font-size: 0.75rem;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-link {
+    color: var(--primary);
+}
+
+.ministry-item-card:hover .ministry-link i {
+    transform: translateX(5px);
+}
+
+/* ==========================================================================
+   7. SERMON AUDIO/VIDEO ARCHIVE COMPONENTS
+   ========================================================================== */
+.sermon-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-premium);
+    border-color: rgba(193, 18, 31, 0.2);
+}
+
+.sermon-thumbnail {
+    position: relative;
+    overflow: hidden;
+    background: var(--dark);
+}
+
+.sermon-thumbnail img {
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover .sermon-thumbnail img {
+    transform: scale(1.06);
+    opacity: 0.75;
+}
+
+.sermon-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(17, 17, 17, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition-smooth);
+    z-index: 5;
+}
+
+.sermon-card:hover .sermon-overlay { opacity: 1; }
+
+.play-trigger {
+    width: 55px;
+    height: 55px;
+    background: var(--primary);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    transform: scale(0.8);
+}
+
+.sermon-card:hover .play-trigger {
+    transform: scale(1);
+}
+
+.sermon-tag {
+    position: absolute;
+    top: 15px; left: 15px;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    letter-spacing: 1px;
+    z-index: 6;
+}
+
+.sermon-details {
+    padding: 25px 20px;
+}
+
+.sermon-meta {
+    display: block;
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 8px;
+}
+
+.sermon-details h3 {
+    font-size: 1.15rem;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--dark);
+}
+
+.sermon-details .speaker {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.sermon-actions {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 15px;
+}
+
+.sermon-actions a { text-decoration: none; }
+
+.action-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: var(--transition-smooth);
+    color: var(--dark);
+}
+
+.action-link:hover { color: var(--primary); }
+.action-link.download { color: #888; }
+.action-link.download:hover { color: var(--dark); }
+
+/* ==========================================================================
+   8. CALENDAR ASSEMBLIES & EVENT CARDS
+   ========================================================================== */
+.event-card {
+    background: var(--white);
+    box-shadow: var(--shadow-subtle);
+    border-bottom: 3px solid transparent;
+    transition: var(--transition-smooth);
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-elevated);
+    border-bottom-color: var(--primary);
+}
+
+.event-img-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+    background-color: var(--dark);
+}
+
+.event-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-date-badge {
+    position: absolute;
+    bottom: 0; left: 20px;
+    background: var(--primary);
+    color: var(--white);
+    width: 65px;
+    padding: 10px 0;
+    text-align: center;
+    z-index: 5;
+}
+
+.event-date-badge .day {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.event-date-badge .month {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.event-body {
+    padding: 30px 25px;
+}
+
+.event-tag-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.event-body h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--dark);
+}
+
+.event-meta-info {
+    display: flex;
+    gap: 20px;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.event-meta-info i { color: var(--primary); }
+.event-excerpt { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+
+.event-card:hover .btn-full {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* ==========================================================================
+   9. ABOUT PAGE SPECIFIC STRUCTURAL MODULES
+   ========================================================================== */
+/* Identity Grid Narrative */
+.identity-narrative p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+
+.identity-box {
+    background: var(--white);
+    padding: 40px 30px;
+    border-top: 4px solid var(--dark);
+    box-shadow: var(--shadow-subtle);
+    transition: var(--transition-smooth);
+}
+
+.identity-box.card-vision { border-top-color: var(--primary); }
+
+.identity-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-premium);
+}
+
+.icon-lead {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.identity-box h3 { font-size: 1.3rem; margin-bottom: 12px; color: var(--dark); }
+.identity-box p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+/* Character Values Node Grid Array */
+.value-node {
+    background: var(--white);
+    padding: 35px 25px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: var(--transition-smooth);
+}
+
+.value-node:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: translateY(-3px);
+}
+
+.value-icon {
+    font-size: 1.85rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    transition: var(--transition-smooth);
+}
+
+.value-node:hover .value-icon { color: var(--white); }
+.value-node h4 { font-size: 1.1rem; margin-bottom: 12px; }
+.value-node p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+.value-node:hover p { color: rgba(255, 255, 255, 0.9); }
+
+/* Chronological Historical Timeline System */
+.timeline-wrapper {
+    position: relative;
+    max-width: 850px;
+    margin: 0 auto;
+    padding-left: 45px;
+    border-left: 3px solid rgba(193, 18, 31, 0.15);
+}
+
+.timeline-block {
+    position: relative;
+    margin-bottom: 45px;
+}
+
+.timeline-block:last-child { margin-bottom: 0; }
+
+.timeline-marker {
+    position: absolute;
+    left: -83px;
+    top: 0;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 2px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(193, 18, 31, 0.2);
+}
+
+.timeline-content {
+    background: var(--white);
+    padding: 30px 35px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: var(--shadow-subtle);
+}
+
+.timeline-content h3 { font-size: 1.25rem; margin-bottom: 10px; color: var(--dark); }
+.timeline-content p { font-size: 0.92rem; color: var(--text-main); line-height: 1.6; }
+
+/* Leadership Profile Layout Matrix */
+.leader-profile-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.05);
+    overflow: hidden;
+    box-shadow: var(--shadow-subtle);
+    transition: var(--transition-smooth);
+}
+
+.leader-profile-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-5px);
+}
+
+.leader-avatar-frame {
+    height: 340px;
+    background-color: var(--dark);
+    overflow: hidden;
+}
+
+.leader-avatar-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.leader-profile-card:hover .leader-avatar-frame img {
+    transform: scale(1.04);
+}
+
+.leader-identity-info { padding: 30px 25px; }
+.leader-identity-info h3 { font-size: 1.3rem; margin-bottom: 4px; color: var(--dark); }
+
+.leader-rank {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+}
+
+.leader-identity-info p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+/* ==========================================================================
+   10. GLOBAL STRUCTURED SYSTEM FOOTER
+   ========================================================================== */
+.global-footer {
+    background: var(--dark);
+    color: #888888;
+    padding: 45px 0;
+    font-size: 0.88rem;
+    border-top: 4px solid var(--primary);
+    width: 100%;
+    display: block;
+    clear: both;
+}
+
+/* ==========================================================================
+   11. SYSTEM BREAKPOINT RESPONSIVENESS OVERRIDES
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .grid-4, .grid-5 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4, .grid-5 {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .section {
+        padding: 65px 0;
+    }
+    
+    .about-hero-banner h1 {
+        font-size: 2.5rem;
+    }/* ==========================================================================
+   1. GLOBAL ARCHITECTURE & DESIGN TOKENS
+   ========================================================================== */
+:root {
+    /* Brand Identity Palette */
+    --primary: #c1121f;
+    --primary-hover: #780000;
+    --dark: #111111;
+    --light: #f8f9fa;
+    --white: #ffffff;
+    --text-main: #333333;
+    --text-muted: #666666;
+    --border-color: rgba(0, 0, 0, 0.06);
+
+    /* Performance & Smoothness Matrices */
+    --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* Depth Layers */
+    --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.01);
+    --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.06);
+    --shadow-elevated: 0 30px 60px rgba(0, 0, 0, 0.08);
+    
+    /* Typography Rules */
+    --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Master Core Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-shadow: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-stack);
+    background-color: var(--white);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   2. REUSABLE SYSTEM LAYOUTS & UTILITIES
+   ========================================================================== */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+.section {
+    padding: 90px 0;
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+/* Utility Fills & Colors */
+.bg-white { background-color: var(--white); }
+.bg-light { background-color: var(--light); }
+.text-center { text-align: center; }
+.text-primary { color: var(--primary); }
+.alignment-center { align-items: center; }
+
+/* Structural Spacing Matrices */
+.mb-2 { margin-bottom: 2rem; }
+.mb-4 { margin-bottom: 4rem; }
+.mt-2 { margin-top: 2rem; }
+.mt-4 { margin-top: 4rem; }
+.max-width-text { max-width: 650px; margin: 0 auto; color: var(--text-muted); font-size: 1rem; }
+
+/* Typography Formatting Blocks */
+.section-subtitle {
+    display: block;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.section-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--dark);
+}
+
+.img-fluid {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Base Structural Grid Systems */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); }
+.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); }
+
+.gap-2 { gap: 1.5rem; }
+.gap-3 { gap: 2.5rem; }
+.gap-4 { gap: 4rem; }
+
+/* Global System Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition-smooth);
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-full {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--light);
+    color: var(--dark);
+}
+
+/* ==========================================================================
+   3. GLOBAL NAVIGATION BAR SYSTEM
+   ========================================================================== */
+.global-navbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+.nav-brand {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--dark);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-icon {
+    color: var(--primary);
+    font-size: 1.4rem;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #444;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+.nav-links a:hover, 
+.nav-links a.active {
+    color: var(--primary);
+}
+
+.nav-links a.nav-cta {
+    background: var(--primary);
+    color: var(--white);
+    padding: 10px 22px;
+    font-weight: 600;
+}
+
+.nav-links a.nav-cta:hover {
+    background: var(--primary-hover);
+}
+
+/* ==========================================================================
+   4. HOME & ABOUT US HERO BANNER ARRAYS
+   ========================================================================== */
+/* Standard Inner Page Sub-Hero Banner */
+.about-hero-banner {
+    background: linear-gradient(rgba(17, 17, 17, 0.85), rgba(17, 17, 17, 0.85)), 
+                url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+    padding: 140px 0 110px;
+    color: var(--white);
+}
+
+.hero-pre-tag {
+    display: inline-block;
+    color: var(--primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.about-hero-banner h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+.hero-subtext {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.15rem;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   5. SAFARI SMALL GROUPS & COMMUNITY SECTIONS
+   ========================================================================== */
+.safari-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    padding: 35px 25px;
+    transition: var(--transition-smooth);
+}
+
+.safari-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-5px);
+    border-color: rgba(193, 18, 31, 0.15);
+}
+
+/* ==========================================================================
+   6. MINISTRIES ECOSYSTEM CARDS
+   ========================================================================== */
+.border-bottom-soft {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ministry-item-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ministry-item-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-8px);
+    border-color: rgba(193, 18, 31, 0.15);
+}
+
+.ministry-image-frame {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--dark);
+    height: 220px;
+}
+
+.ministry-image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-image-frame img {
+    transform: scale(1.08);
+    opacity: 0.85;
+}
+
+.ministry-icon-badge {
+    position: absolute;
+    bottom: -20px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 20px rgba(193, 18, 31, 0.3);
+    z-index: 5;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-icon-badge {
+    transform: translateY(-5px) rotate(360deg);
+}
+
+.ministry-content-body {
+    padding: 35px 25px 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.ministry-content-body h3 {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+    color: var(--dark);
+}
+
+.affinity-tag {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--primary);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.ministry-content-body p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 25px;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.ministry-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--dark);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+    margin-top: auto;
+    text-decoration: none;
+}
+
+.ministry-link i {
+    font-size: 0.75rem;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-link {
+    color: var(--primary);
+}
+
+.ministry-item-card:hover .ministry-link i {
+    transform: translateX(5px);
+}
+
+/* ==========================================================================
+   7. SERMON AUDIO/VIDEO ARCHIVE COMPONENTS
+   ========================================================================== */
+.sermon-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-premium);
+    border-color: rgba(193, 18, 31, 0.2);
+}
+
+.sermon-thumbnail {
+    position: relative;
+    overflow: hidden;
+    background: var(--dark);
+}
+
+.sermon-thumbnail img {
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover .sermon-thumbnail img {
+    transform: scale(1.06);
+    opacity: 0.75;
+}
+
+.sermon-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(17, 17, 17, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition-smooth);
+    z-index: 5;
+}
+
+.sermon-card:hover .sermon-overlay { opacity: 1; }
+
+.play-trigger {
+    width: 55px;
+    height: 55px;
+    background: var(--primary);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    transform: scale(0.8);
+}
+
+.sermon-card:hover .play-trigger {
+    transform: scale(1);
+}
+
+.sermon-tag {
+    position: absolute;
+    top: 15px; left: 15px;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    letter-spacing: 1px;
+    z-index: 6;
+}
+
+.sermon-details {
+    padding: 25px 20px;
+}
+
+.sermon-meta {
+    display: block;
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 8px;
+}
+
+.sermon-details h3 {
+    font-size: 1.15rem;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--dark);
+}
+
+.sermon-details .speaker {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.sermon-actions {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 15px;
+}
+
+.sermon-actions a { text-decoration: none; }
+
+.action-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: var(--transition-smooth);
+    color: var(--dark);
+}
+
+.action-link:hover { color: var(--primary); }
+.action-link.download { color: #888; }
+.action-link.download:hover { color: var(--dark); }
+
+/* ==========================================================================
+   8. CALENDAR ASSEMBLIES & EVENT CARDS
+   ========================================================================== */
+.event-card {
+    background: var(--white);
+    box-shadow: var(--shadow-subtle);
+    border-bottom: 3px solid transparent;
+    transition: var(--transition-smooth);
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-elevated);
+    border-bottom-color: var(--primary);
+}
+
+.event-img-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+    background-color: var(--dark);
+}
+
+.event-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-date-badge {
+    position: absolute;
+    bottom: 0; left: 20px;
+    background: var(--primary);
+    color: var(--white);
+    width: 65px;
+    padding: 10px 0;
+    text-align: center;
+    z-index: 5;
+}
+
+.event-date-badge .day {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.event-date-badge .month {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.event-body {
+    padding: 30px 25px;
+}
+
+.event-tag-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.event-body h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--dark);
+}
+
+.event-meta-info {
+    display: flex;
+    gap: 20px;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.event-meta-info i { color: var(--primary); }
+.event-excerpt { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+
+.event-card:hover .btn-full {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* ==========================================================================
+   9. ABOUT PAGE SPECIFIC STRUCTURAL MODULES
+   ========================================================================== */
+/* Identity Grid Narrative */
+.identity-narrative p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+
+.identity-box {
+    background: var(--white);
+    padding: 40px 30px;
+    border-top: 4px solid var(--dark);
+    box-shadow: var(--shadow-subtle);
+    transition: var(--transition-smooth);
+}
+
+.identity-box.card-vision { border-top-color: var(--primary); }
+
+.identity-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-premium);
+}
+
+.icon-lead {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.identity-box h3 { font-size: 1.3rem; margin-bottom: 12px; color: var(--dark); }
+.identity-box p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+/* Character Values Node Grid Array */
+.value-node {
+    background: var(--white);
+    padding: 35px 25px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: var(--transition-smooth);
+}
+
+.value-node:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: translateY(-3px);
+}
+
+.value-icon {
+    font-size: 1.85rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    transition: var(--transition-smooth);
+}
+
+.value-node:hover .value-icon { color: var(--white); }
+.value-node h4 { font-size: 1.1rem; margin-bottom: 12px; }
+.value-node p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+.value-node:hover p { color: rgba(255, 255, 255, 0.9); }
+
+/* Chronological Historical Timeline System */
+.timeline-wrapper {
+    position: relative;
+    max-width: 850px;
+    margin: 0 auto;
+    padding-left: 45px;
+    border-left: 3px solid rgba(193, 18, 31, 0.15);
+}
+
+.timeline-block {
+    position: relative;
+    margin-bottom: 45px;
+}
+
+.timeline-block:last-child { margin-bottom: 0; }
+
+.timeline-marker {
+    position: absolute;
+    left: -83px;
+    top: 0;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 2px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(193, 18, 31, 0.2);
+}
+
+.timeline-content {
+    background: var(--white);
+    padding: 30px 35px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: var(--shadow-subtle);
+}
+
+.timeline-content h3 { font-size: 1.25rem; margin-bottom: 10px; color: var(--dark); }
+.timeline-content p { font-size: 0.92rem; color: var(--text-main); line-height: 1.6; }
+
+/* Leadership Profile Layout Matrix */
+.leader-profile-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.05);
+    overflow: hidden;
+    box-shadow: var(--shadow-subtle);
+    transition: var(--transition-smooth);
+}
+
+.leader-profile-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-5px);
+}
+
+.leader-avatar-frame {
+    height: 340px;
+    background-color: var(--dark);
+    overflow: hidden;
+}
+
+.leader-avatar-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.leader-profile-card:hover .leader-avatar-frame img {
+    transform: scale(1.04);
+}
+
+.leader-identity-info { padding: 30px 25px; }
+.leader-identity-info h3 { font-size: 1.3rem; margin-bottom: 4px; color: var(--dark); }
+
+.leader-rank {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+}
+
+.leader-identity-info p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+/* ==========================================================================
+   10. GLOBAL STRUCTURED SYSTEM FOOTER
+   ========================================================================== */
+.global-footer {
+    background: var(--dark);
+    color: #888888;
+    padding: 45px 0;
+    font-size: 0.88rem;
+    border-top: 4px solid var(--primary);
+    width: 100%;
+    display: block;
+    clear: both;
+}
+
+/* ==========================================================================
+   11. SYSTEM BREAKPOINT RESPONSIVENESS OVERRIDES
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .grid-4, .grid-5 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4, .grid-5 {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .section {
+        padding: 65px 0;
+    }
+    
+    .about-hero-banner h1 {
+        font-size: 2.5rem;
+    }
+    
+    .gap-4 {
+        gap: 2rem;
+    }
+
+    .timeline-wrapper {
+        padding-left: 30px;
+    }
+
+    .timeline-marker {
+        left: -68px;
+    }
+    
+    .nav-links {
+        display: none; /* Optimized for standard layout integration */
+    }
+
+    
+    .gap-4 {
+        gap: 2rem;
+    }
+
+    .timeline-wrapper {
+        padding-left: 30px;
+    }
+
+    .timeline-marker {
+        left: -68px;
+    }
+    
+    .nav-links {
+        display: none; /* Optimized for standard layout integration */
+    }
+}

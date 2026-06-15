@@ -1,0 +1,1098 @@
+/* ==========================================================================
+   1. DESIGN SYSTEM VARIABLES & BRAND TOKENS
+   ========================================================================== */
+:root {
+    /* User-Specified Color Palette Matrix */
+    --primary-red: #c1121f;
+    --dark-black: #111111;
+    --light-black: #1f1f1f;
+    --pure-white: #ffffff;
+    --soft-white: #f5f5f5;
+    --gray-text: #777777;
+
+    /* Semantic UI Extensions */
+    --primary-hover: #9e0e18;
+    --border-soft: rgba(17, 17, 17, 0.06);
+    --border-light: rgba(255, 255, 255, 0.08);
+    
+    /* Typography Config */
+    --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
+    
+    /* Animation & Micro-Interactions */
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    
+    /* Elevation / Shadows */
+    --shadow-elegant: 0 10px 30px rgba(17, 17, 17, 0.03);
+    --shadow-premium: 0 20px 40px rgba(17, 17, 17, 0.06);
+    --shadow-hover: 0 30px 60px rgba(17, 17, 17, 0.12);
+
+    /* Radii Engine */
+    --radius-sm: 2px;
+    --radius-md: 4px;
+}
+
+/* ==========================================================================
+   2. GLOBAL CSS RESET & ARCHITECTURAL FOUNDATIONS
+   ========================================================================== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--gray-text);
+    background-color: var(--pure-white);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typographic Framework Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--dark-black);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* List Standards Reset */
+ul, ol {
+    list-style: none;
+}
+
+/* ==========================================================================
+   3. REUSABLE UTILITY ENGINE & FLEX/GRID STRUCTURAL LAYOUTS
+   ========================================================================== */
+.container {
+    width: 92%;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.section {
+    padding: 120px 0;
+    position: relative;
+}
+
+/* Structural Layout Balancing Modifier */
+.balance-section {
+    padding: 100px 0;
+}
+
+/* Contextual Colors Utilities */
+.bg-light { background-color: var(--soft-white); }
+.bg-dark { background-color: var(--dark-black); }
+.bg-white { background-color: var(--pure-white); }
+.text-primary { color: var(--primary-red) !important; }
+.text-white { color: var(--pure-white) !important; }
+.text-center { text-align: center; }
+
+/* Structural Margin Utilities */
+.mt-2 { margin-top: 1.5rem !important; }
+.mt-4 { margin-top: 3rem !important; }
+.mb-4 { margin-bottom: 3.5rem !important; }
+
+/* Global Visual Elements */
+.img-fluid {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.rounded { 
+    border-radius: var(--radius-md); 
+}
+
+.shadow-elegant { 
+    box-shadow: var(--shadow-hover); 
+}
+
+.border-bottom-soft {
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.alignment-center {
+    align-items: center;
+}
+
+/* Structural Max Width Constrains for Headers */
+.max-width-text {
+    max-width: 700px;
+    margin: 0 auto;
+    color: var(--gray-text);
+    font-size: 1rem;
+}
+
+/* Section Header Presentation Elements */
+.section-subtitle {
+    display: block;
+    color: var(--primary-red);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--dark-black);
+    letter-spacing: -0.5px;
+    margin-bottom: 15px;
+}
+
+.bg-dark .section-title {
+    color: var(--pure-white);
+}
+
+/* High-Performance Responsive Grid Layouts */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); }
+.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); }
+
+/* Grid Gap Scales */
+.gap-2 { gap: 24px; }
+.gap-3 { gap: 30px; }
+.gap-4 { gap: 60px; }
+
+
+/* ==========================================================================
+   4. INTERACTIVE BUTTONS & ACTIONS INFRASTRUCTURE
+   ========================================================================== */
+.btn {
+    display: inline-block;
+    padding: 14px 34px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    border: 2px solid transparent;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-red);
+    color: var(--pure-white);
+    border-color: var(--primary-red);
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--primary-red);
+    transform: translateY(-3px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--pure-white);
+    border-color: var(--pure-white);
+}
+
+.btn-outline:hover {
+    background-color: var(--pure-white);
+    color: var(--dark-black);
+    transform: translateY(-3px);
+}
+
+.btn-full {
+    display: block;
+    width: 100%;
+    font-size: 0.8rem;
+    padding: 12px 20px;
+    background-color: var(--soft-white);
+    color: var(--dark-black);
+    border: none;
+}
+
+/* ==========================================================================
+   5. TOP CONTACT BAR & UTILITIES HEADER MODULES
+   ========================================================================== */
+.top-bar {
+    background-color: #0b0b0b;
+    padding: 10px 0;
+    font-size: 0.8rem;
+    color: #999999;
+    border-bottom: 1px solid var(--border-light);
+    position: relative;
+    z-index: 1001;
+}
+
+.top-bar-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-info span {
+    margin-right: 25px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.top-info i {
+    color: var(--primary-red);
+}
+
+.top-social a {
+    color: #999999;
+    margin-left: 15px;
+}
+
+.top-social a:hover {
+    color: var(--pure-white);
+}
+
+
+/* ==========================================================================
+   6. NAVIGATION BAR SYSTEMS & STICKY HEADER
+   ========================================================================== */
+.header {
+    position: fixed;
+    top: 42px; /* Places navigation cleanly under top bar */
+    left: 0;
+    width: 100%;
+    padding: 25px 0;
+    z-index: 1000;
+    transition: var(--transition-smooth);
+    background: transparent;
+}
+
+/* Scrolled Sticky Implementation Class */
+.header.scrolled {
+    top: 0;
+    background-color: rgba(17, 17, 17, 0.98);
+    padding: 15px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Brand Identity Styling Layout */
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--pure-white);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.logo span {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: #aaaaaa;
+    margin-top: -2px;
+}
+
+.nav-list {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-list a {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    padding: 4px 0;
+}
+
+.nav-list a:hover, 
+.nav-list a.active {
+    color: var(--pure-white);
+}
+
+/* Inline Navigation Active Underline Effects */
+.nav-list a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-red);
+    transition: var(--transition-smooth);
+}
+
+.nav-list a:hover::after,
+.nav-list a.active::after {
+    width: 100%;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-nav {
+    padding: 10px 24px;
+    font-size: 0.8rem;
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--pure-white);
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+
+/* ==========================================================================
+   7. CINEMATIC HERO SLIDERS OVERLAYS
+   ========================================================================== */
+.hero-slider {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--dark-black);
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.slide.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(17, 17, 17, 0.85) 30%, rgba(17, 17, 17, 0.45));
+    z-index: 2;
+}
+
+.slide-content {
+    position: relative;
+    z-index: 3;
+    color: var(--pure-white);
+    max-width: 850px;
+}
+
+.hero-pre-tag,
+.subheading {
+    display: inline-block;
+    color: var(--primary-red);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+.slide-content h1 {
+    font-size: 4.8rem;
+    font-weight: 800;
+    color: var(--pure-white);
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.slide-text,
+.hero-subtext {
+    font-size: 1.1rem;
+    color: #cccccc;
+    margin-bottom: 40px;
+    max-width: 650px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px;
+}
+
+/* Custom Navigation Controls */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--pure-white);
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    z-index: 10;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-btn:hover {
+    background-color: var(--primary-red);
+    border-color: var(--primary-red);
+}
+
+.slider-btn.prev { left: 40px; }
+.slider-btn.next { right: 40px; }
+
+
+/* ==========================================================================
+   8. COMPONENTS PANELS (SERVICES & CORES PUSHERS)
+   ========================================================================== */
+.services-panel {
+    margin-top: -180px; /* Structural Overlap Structural Strategy */
+    position: relative;
+    z-index: 15;
+}
+
+.info-panel-card {
+    background-color: var(--pure-white);
+    padding: 50px 40px;
+    box-shadow: var(--shadow-premium);
+    border-top: 4px solid #dddddd;
+    transition: var(--transition-smooth);
+}
+
+.info-panel-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.info-panel-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.info-panel-card.highlighted {
+    background-color: var(--dark-black);
+    color: var(--pure-white);
+    border-top-color: var(--primary-red);
+}
+
+.info-panel-card.highlighted h3 {
+    color: var(--pure-white);
+}
+
+.icon-wrap,
+.icon-lead {
+    font-size: 2.2rem;
+    color: var(--primary-red);
+    margin-bottom: 25px;
+}
+
+.schedule-list li {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.05);
+    padding-bottom: 8px;
+}
+
+.info-panel-card.highlighted .schedule-list li {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Foundational C-I-T-A-M Core Pillars Grid */
+.value-box,
+.value-node {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 40px 24px;
+    text-align: center;
+    transition: var(--transition-smooth);
+}
+
+.value-box:hover,
+.value-node:hover {
+    background-color: var(--pure-white);
+    color: var(--dark-black);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.value-box:hover h4,
+.value-node:hover h4 {
+    color: var(--dark-black);
+}
+
+.letter {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--primary-red);
+    margin-bottom: 10px;
+}
+
+.value-box h4,
+.value-node h4 {
+    color: var(--pure-white);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.value-box p {
+    font-size: 0.85rem;
+    color: #888888;
+}
+
+.value-box:hover p {
+    color: var(--gray-text);
+}
+
+
+/* ==========================================================================
+   9. SERMON ARCHIVE ARCHITECTURE
+   ========================================================================== */
+.sermon-card {
+    background-color: var(--pure-white);
+    border: 1px solid var(--border-soft);
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-premium);
+    border-color: rgba(193, 18, 31, 0.15);
+}
+
+.sermon-thumbnail {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--dark-black);
+}
+
+.sermon-thumbnail img {
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover .sermon-thumbnail img {
+    transform: scale(1.06);
+    opacity: 0.75;
+}
+
+.sermon-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(17, 17, 17, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition-smooth);
+    z-index: 5;
+}
+
+.sermon-card:hover .sermon-overlay { opacity: 1; }
+
+.play-trigger {
+    width: 55px;
+    height: 55px;
+    background-color: var(--primary-red);
+    color: var(--pure-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    transform: scale(0.8);
+}
+
+.sermon-card:hover .play-trigger {
+    transform: scale(1);
+}
+
+.sermon-tag {
+    position: absolute;
+    top: 15px; left: 15px;
+    background-color: var(--primary-red);
+    color: var(--pure-white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    letter-spacing: 1px;
+    z-index: 6;
+}
+
+.sermon-details {
+    padding: 25px 20px;
+}
+
+.sermon-meta {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--gray-text);
+    margin-bottom: 8px;
+}
+
+.sermon-details h3 {
+    font-size: 1.15rem;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sermon-details .speaker {
+    font-size: 0.85rem;
+    color: var(--primary-red);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.sermon-actions {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-soft);
+    padding-top: 15px;
+}
+
+.action-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.action-link:hover { color: var(--primary-red); }
+.action-link.download { color: #888888; }
+.action-link.download:hover { color: var(--dark-black); }
+
+
+/* ==========================================================================
+   10. CALENDAR UPCOMING assemblies MODULES
+   ========================================================================== */
+.event-card {
+    background-color: var(--pure-white);
+    box-shadow: var(--shadow-elegant);
+    border-bottom: 3px solid transparent;
+    transition: var(--transition-smooth);
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+    border-bottom-color: var(--primary-red);
+}
+
+.event-img-wrap {
+    position: relative;
+    overflow: hidden;
+}
+
+.event-date-badge {
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    background-color: var(--primary-red);
+    color: var(--pure-white);
+    width: 65px;
+    padding: 10px 0;
+    text-align: center;
+    z-index: 5;
+}
+
+.event-date-badge .day {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.event-date-badge .month {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.event-body {
+    padding: 30px 25px;
+}
+
+.event-tag-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--primary-red);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.event-body h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--dark-black);
+}
+
+.event-meta-info {
+    display: flex;
+    gap: 20px;
+    font-size: 0.8rem;
+    color: var(--gray-text);
+    margin-bottom: 15px;
+}
+
+.event-meta-info i {
+    color: var(--primary-red);
+}
+
+.event-excerpt {
+    font-size: 0.9rem;
+    color: var(--gray-text);
+    margin-bottom: 20px;
+}
+
+.event-card:hover .btn-full {
+    background-color: var(--primary-red);
+    color: var(--pure-white);
+}
+
+
+/* ==========================================================================
+   11. DYNAMIC MINISTRIES ECOSYSTEM
+   ========================================================================== */
+.ministry-item-card {
+    background-color: var(--pure-white);
+    border: 1px solid var(--border-soft);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ministry-item-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-8px);
+    border-color: rgba(193, 18, 31, 0.15);
+}
+
+.ministry-image-frame {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--dark-black);
+    height: 220px;
+}
+
+.ministry-image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-image-frame img {
+    transform: scale(1.08);
+    opacity: 0.85;
+}
+
+.ministry-icon-badge {
+    position: absolute;
+    bottom: -20px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-red);
+    color: var(--pure-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 20px rgba(193, 18, 31, 0.25);
+    z-index: 5;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-icon-badge {
+    transform: translateY(-5px) rotate(360deg);
+}
+
+.ministry-content-body {
+    padding: 35px 25px 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.ministry-content-body h3 {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+    color: var(--dark-black);
+}
+
+.affinity-tag {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--primary-red);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.ministry-content-body p {
+    font-size: 0.9rem;
+    color: var(--gray-text);
+    margin-bottom: 25px;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.ministry-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--dark-black);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.ministry-link i {
+    font-size: 0.75rem;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-link {
+    color: var(--primary-red);
+}
+
+.ministry-item-card:hover .ministry-link i {
+    transform: translateX(5px);
+}
+
+
+/* ==========================================================================
+   12. SAFARI GROUPS MATURITY SYSTEMS
+   ========================================================================== */
+.milestone-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.milestone-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.milestone-item i {
+    font-size: 1.5rem;
+    color: var(--primary-red);
+    background-color: var(--pure-white);
+    padding: 15px;
+    box-shadow: var(--shadow-premium);
+}
+
+.milestone-item h5 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    color: var(--dark-black);
+}
+
+
+/* ==========================================================================
+   13. ARCHITECTURAL GLOBAL FOOTER CHANNELS
+   ========================================================================== */
+.footer,
+.global-footer {
+    background-color: #090909;
+    color: var(--gray-text);
+    padding: 100px 0 30px;
+    font-size: 0.9rem;
+    border-top: 3px solid var(--primary-red);
+}
+
+.footer h3, 
+.footer h4 {
+    color: var(--pure-white);
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer h3 span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--primary-red);
+}
+
+.footer ul li {
+    margin-bottom: 12px;
+}
+
+.footer ul li a {
+    color: var(--gray-text);
+}
+
+.footer ul li a:hover {
+    color: var(--primary-red);
+    padding-left: 6px;
+}
+
+.footer-col ul li i {
+    color: var(--primary-red);
+    margin-right: 10px;
+}
+
+.social-links a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--pure-white);
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: var(--transition-smooth);
+}
+
+.social-links a:hover {
+    background-color: var(--primary-red);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    margin-top: 60px;
+    padding-top: 30px;
+    font-size: 0.85rem;
+}
+
+
+/* ==========================================================================
+   14. INTERACTIVE MOTION ENGiNE (SCROLL INTERACTION ANIMATIONS)
+   ========================================================================== */
+.slide-up { transform: translateY(40px); opacity: 0; transition: var(--transition-smooth); }
+.slide-text.slide-up { transition-delay: 0.2s; }
+.btn-group.slide-up { transition-delay: 0.4s; }
+.slide.active .slide-up { transform: translateY(0); opacity: 1; }
+
+.reveal-up { transform: translateY(60px); opacity: 0; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+.reveal-left { transform: translateX(-60px); opacity: 0; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+.reveal-right { transform: translateX(60px); opacity: 0; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.3s; }
+.delay-3 { transition-delay: 0.45s; }
+.delay-4 { transition-delay: 0.6s; }
+
+/* When explicit visual visibility classes are active */
+.active.reveal-up, 
+.active.reveal-left, 
+.active.reveal-right,
+.info-panel-card.active,
+.value-box.active,
+.sermon-card.active,
+.event-card.active,
+.ministry-item-card.active {
+    transform: translate(0) !important;
+    opacity: 1 !important;
+}
+
+
+/* ==========================================================================
+   15. FLUID BREAKPOINT MEDIA QUERIES (COMPREHENSIVE RESPONSIVENESS)
+   ========================================================================== */
+@media (max-width: 1199px) {
+    .slide-content h1 { font-size: 3.8rem; }
+    .grid-5 { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+}
+
+@media (max-width: 991px) {
+    .grid-2, .grid-3, .grid-4, .grid-5 { 
+        grid-template-columns: 1fr; 
+        gap: 40px; 
+    }
+    .services-panel { margin-top: -60px; }
+    .top-bar { display: none; }
+    .header { top: 0; background-color: rgba(17, 17, 17, 0.95); }
+    .slide-content h1 { font-size: 3rem; }
+}
+
+@media (max-width: 767px) {
+    .section { padding: 80px 0; }
+    .section-title { font-size: 2rem; }
+    .hamburger { display: block; }
+    
+    /* Mobile Overlay Menu */
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--dark-black);
+        flex-direction: column;
+        padding: 30px 0;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: var(--transition-smooth);
+    }
+    
+    .nav-menu.show { 
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); 
+    }
+    
+    .nav-list { 
+        flex-direction: column; 
+        align-items: center; 
+        gap: 20px; 
+    }
+    
+    .btn-nav { display: none; }
+}

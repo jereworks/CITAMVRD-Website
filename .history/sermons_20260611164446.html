@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermons | CITAM Valley Road</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Top Contact Utility Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-flex">
+            <div class="top-info">
+                <span><i class="fas fa-phone-alt"></i> +254 709 861 150</span>
+                <span><i class="fas fa-envelope"></i> valleyroad@citam.org</span>
+                <span><i class="fas fa-map-marker-alt"></i> 28 Valley Rd, Nairobi, Kenya</span>
+            </div>
+            <div class="top-social">
+                <a href="https://www.facebook.com/citamvrdke" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://x.com/CitamVrdKE" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/citamvrdke/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@CITAMValleyRoadNPC" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transparent Sticky Header Navigation -->
+    <header class="header" id="header">
+        <div class="container nav-container">
+            
+            <a href="index.html" class="logo" aria-label="CITAM Valley Road Home" style="display: flex; align-items: center; gap: 15px; text-decoration: none;">
+                <img src="images/CITAMLOGO.svg" alt="CITAM Logo" style="height: 70px; width: auto; display: block;">
+                
+                <div style="display: flex; flex-direction: column; justify-content: center;">
+                    <span style="font-size: 2.2rem; font-weight: 800; color: #ffffff; line-height: 0.85; letter-spacing: 2px;">
+                        CITAM
+                    </span>
+                    <span style="font-size: 0.7rem; font-weight: 400; color: #ffffff; line-height: 1; margin-top: 6px; text-transform: uppercase; width: 100%; text-align-last: justify;">
+                        Valley Road
+                    </span>
+                </div>
+            </a>
+
+            <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="ministries.html">Ministries</a></li>
+                    <li><a href="sermons.html">Sermons</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="give.html" class="btn btn-primary btn-nav">Give / Tithe</a>
+                <button class="hamburger" id="hamburger" aria-expanded="false" aria-label="Toggle navigation menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <header class="about-hero-banner" style="
+        padding-top: 180px !important; 
+        padding-bottom: 100px !important;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/Sermons.jpg') !important; 
+        background-size: cover !important; 
+        background-position: center !important; 
+        position: relative !important;
+        z-index: 1 !important;">
+        
+        <div class="container text-center" style="position: relative !important; z-index: 10 !important;">
+            <span class="hero-pre-tag animate-on-scroll slide-up" style="color: #f1ee07 !important; display: block !important; margin-bottom: 10px !important; opacity: 1 !important; visibility: visible !important;">
+                Listen & Learn
+            </span>
+            
+            <h1 class="animate-on-scroll slide-up delay-1" style="color: #ffffff !important; margin-bottom: 20px !important; opacity: 1 !important; visibility: visible !important; position: relative !important;">
+                Our Sermons
+            </h1>
+            
+            <p class="hero-subtext animate-on-scroll slide-up delay-2" style="color: #ffffff !important; max-width: 700px !important; margin: 0 auto !important; opacity: 1 !important; visibility: visible !important;">
+                Explore a collection of messages designed to inspire, challenge, and equip you for a life of faith and purpose.
+            </p>
+        </div>
+    </header>
+
+    <!-- Latest Sermon Series -->
+    <section id="featured-sermon-container" class="section bg-light" style="display: none;">
+        <div class="container">
+            <h2 class="section-title text-center mb-4">Latest Message</h2>
+            <div id="featured-sermon" class="featured-sermon-card shadow-elegant rounded"></div>
+        </div>
+    </section>
+
+    <section class="impact-section" id="sermon-stats" style="display: none;">
+        <div class="container grid-3">
+            <div class="impact-card">
+                <h3 id="stat-total-sermons">0</h3>
+                <p>Total Sermons</p>
+            </div>
+            <div class="impact-card">
+                <h3 id="stat-playlists">0</h3>
+                <p>Curated Series</p>
+            </div>
+            <div class="impact-card">
+                <h3 id="stat-latest-date">-</h3>
+                <p>Latest Upload</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="sermon-controls" class="bg-white" style="padding: 60px 0 20px;">
+        <div class="container">
+            <div class="controls-wrapper">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="sermon-search" placeholder="Search by title, series, or keyword..." aria-label="Search sermons">
+                </div>
+                
+                <div class="utilities-row">
+                    <div class="category-scroll-wrapper" id="category-filters" role="group" aria-label="Playlist Categories">
+                        <button class="btn btn-outline category-btn active" data-id="All">All</button>
+                        </div>
+                    
+                    <div class="sort-container">
+                        <select id="sermon-sort" class="premium-select" aria-label="Sort sermons">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sermons-grid-section" class="section bg-white pt-0">
+        <div class="container">
+            <div id="dynamic-sermon-grid">
+                </div>
+            
+            <div id="pagination-container" class="sermon-pagination mt-4" role="navigation" aria-label="Pagination">
+                </div>
+        </div>
+    </section>
+    
+
+
+    <!-- Footer System -->
+    <footer class="footer">
+        <div class="container grid-4">
+            <div class="footer-col">
+                <h3>CITAM<span>Valley Road</span></h3>
+                <p>An assembly under Christ Is The Answer Ministries, established to know God and make Him known through practical discipleship structures.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/citamvrdke" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/CitamVrdKE" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/citamvrdke/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@CITAMValleyRoadNPC" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>  
+            <div class="footer-col">    
+                <h4>Quick References</h4>
+                <ul>
+                    <li><a href="about.html">About Leadership</a></li>
+                    <li><a href="ministries.html">Our Ministries</a></li>
+                    <li><a href="sermons.html">Sermon Catalogue</a></li>
+                    <li><a href="contact.html">Prayer Requests</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Weekly Services</h4>
+                <ul>
+                    <li>1st Service: Sun 8:30 AM</li>
+                    <li>2nd Service: Sun 11:30 AM</li>
+                    <li>Youth Assembly: Sun 8:30 AM</li>
+                    <li>Tuesday Prayer: 6:00 PM</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Central Office</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 28 Valley Rd, Nairobi, Kenya</li>
+                    <li><i class="fas fa-phone"></i> +254 709 861 150</li>
+                    <li><i class="fas fa-envelope"></i> valleyroad@citam.org</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 CITAM Valley Road. Built for high-performance scale. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Core JavaScript Logic Added Directly -->
+    
+    <script src="js/sermons.js" defer></script>
+
+    <!-- Main JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Sticky Header Functionality
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // 2. Mobile Menu Toggle
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', () => {
+                    navMenu.classList.toggle('show');
+                    const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+                    hamburger.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+
+            // 3. Scroll Reveal Animations via Intersection Observer
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active'); // This triggers the visibility
+                        observer.unobserve(entry.target); // Run animation only once
+                    }
+                });
+            }, observerOptions);
+
+            // Target all animated elements on the page
+            const animatableElements = document.querySelectorAll('.animate-on-scroll');
+            animatableElements.forEach(el => revealObserver.observe(el));
+        });
+    </script>
+
+   
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sermon Archive | CITAM Valley Road</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .filter-bar { background: var(--white); padding: 20px; border: 1px solid rgba(0,0,0,0.05); margin-bottom: 40px; display: flex; gap: 15px; }
+        .filter-input { flex-grow: 1; padding: 12px 20px; border: 1px solid #ddd; font-family: var(--font-sans); outline: none; }
+        .filter-select { padding: 12px 20px; border: 1px solid #ddd; font-family: var(--font-sans); outline: none; background: #fafafa; }
+    </style>
+</head>
+<body>
+    <header class="about-hero-banner" style="padding-top: 180px; background-image: linear-gradient(rgba(17, 17, 17, 0.85), rgba(17, 17, 17, 0.85)), url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=1920&q=80');">
+        <div class="container text-center">
+            <span class="hero-pre-tag animate-on-scroll slide-up">Word & Doctrine</span>
+            <h1 class="animate-on-scroll slide-up delay-1">Sermon Archive</h1>
+        </div>
+    </header>
+
+    <section class="section bg-light">
+        <div class="container">
+            <div class="filter-bar animate-on-scroll reveal-up">
+                <input type="text" class="filter-input" placeholder="Search by keyword, series, or speaker...">
+                <select class="filter-select">
+                    <option>All Topics</option>
+                    <option>Faith & Doctrine</option>
+                    <option>Marketplace</option>
+                    <option>Family</option>
+                </select>
+                <button class="btn btn-primary">Search</button>
+            </div>
+
+            <div class="grid-4 mt-4">
+                 <article class="sermon-card animate-on-scroll reveal-up">
+                    <div class="sermon-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&w=600&q=80" alt="Sermon" class="img-fluid" loading="lazy">
+                        <div class="sermon-overlay"><a href="#" class="play-trigger"><i class="fas fa-play"></i></a></div>
+                    </div>
+                    <div class="sermon-details">
+                        <span class="sermon-meta"><i class="far fa-calendar-alt"></i> May 24, 2026</span>
+                        <h3>Walking in Divine Order</h3>
+                        <p class="speaker">Rev. Dr. Jesse Mwai</p>
+                    </div>
+                </article>
+                </div>
+        </div>
+    </section>
+
+    </body>
+</html>

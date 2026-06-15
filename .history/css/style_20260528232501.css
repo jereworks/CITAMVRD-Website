@@ -1,0 +1,774 @@
+/* ==========================================================================
+   DESIGN TOKENS & VARIABLE ARCHITECTURE
+   ========================================================================== */
+:root {
+    /* Color Palette */
+    --primary: #0f766e;          /* Deep Teal Corporate Accent */
+    --primary-hover: #115e59;    /* Darkened Teal for Interactive Hover States */
+    --accent: #b45309;           /* Deep Gold/Amber Accent */
+    --black: #111827;            /* Base Text/Rich Black */
+    --dark: #1f2937;             /* Dark Section Backgrounds */
+    --light: #f9fafb;            /* Soft Light Gray for Alternate Sections */
+    --white: #ffffff;            /* Clean White Surfaces */
+    
+    /* Layout/Borders Color Metrics */
+    --border-color: rgba(0, 0, 0, 0.08);
+    --border-color-light: rgba(255, 255, 255, 0.1);
+
+    /* Typography Scale */
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    
+    /* Elevation / Box Shadows */
+    --shadow-elegant: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    --shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+
+    /* Micro-Interactions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+}
+
+/* ==========================================================================
+   GLOBAL RESET & STRUCTURAL BASE SETUP
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--white);
+    color: var(--black);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Typographic Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--black);
+    letter-spacing: -0.025em;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #4b5563;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ==========================================================================
+   UTILITY LAYOUT & HELPER ENGINE
+   ========================================================================== */
+.container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.section {
+    padding: 100px 0;
+    position: relative;
+}
+
+/* Color Modifiers */
+.bg-light { background-color: var(--light); }
+.bg-dark { background-color: var(--black); }
+.bg-white { background-color: var(--white); }
+.text-white { color: var(--white) !important; }
+.text-center { text-align: center; }
+
+/* Structural Margin Utilities */
+.mb-4 { margin-bottom: 1.5rem !important; }
+.mt-4 { margin-top: 2.5rem !important; }
+
+/* Visual Helpers */
+.img-fluid {
+    width: 100%;
+    object-fit: cover;
+}
+.rounded { border-radius: var(--radius-md); }
+.shadow-elegant { box-shadow: var(--shadow-elegant); }
+.max-width-text {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+/* Section Header Typography Components */
+.section-subtitle {
+    display: block;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 15px;
+}
+
+/* Modern Grid System Ecosystem */
+[class^="grid-"] {
+    display: grid;
+}
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+.gap-2 { gap: 16px; }
+.gap-3 { gap: 32px; }
+.gap-4 { gap: 48px; }
+
+.alignment-center {
+    align-items: center;
+}
+
+/* Border Modifiers */
+.border-bottom-soft {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   BUTTONS & ACTION LAYER COMPONENTS
+   ========================================================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    border: 2px solid transparent;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.btn-full {
+    width: 100%;
+    background-color: #f3f4f6;
+    color: var(--black);
+    font-size: 0.9rem;
+    padding: 10px 16px;
+}
+
+.btn-full:hover {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+/* ==========================================================================
+   GLOBAL NAVIGATION BAR SYSTEM
+   ========================================================================== */
+.global-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.nav-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--black);
+    letter-spacing: -0.5px;
+}
+
+.brand-icon {
+    color: var(--primary);
+    font-size: 1.4rem;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #4b5563;
+    position: relative;
+    padding: 6px 0;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: var(--transition-smooth);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+.nav-links .nav-cta {
+    background-color: var(--accent);
+    color: var(--white) !important;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+}
+
+.nav-links .nav-cta:hover {
+    background-color: #92400e;
+}
+
+.nav-links .nav-cta::after { display: none; }
+
+/* ==========================================================================
+   HERO TEXT BLOCK EXTENSIONS
+   ========================================================================== */
+.hero-pre-tag {
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   MISSION, VISION & SUNDAY SCHEDULE INFO PANELS
+   ========================================================================== */
+.info-panel-card {
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-premium);
+    transition: var(--transition-smooth);
+    border: 1px solid var(--border-color);
+}
+
+.info-panel-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.info-panel-card.highlighted {
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    color: var(--white);
+    border: none;
+}
+
+.icon-wrap {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-sm);
+    background-color: rgba(15, 118, 110, 0.1);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 24px;
+}
+
+.highlighted .icon-wrap {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+}
+
+.schedule-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    font-size: 0.95rem;
+}
+
+.highlighted .schedule-list li {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.schedule-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* ==========================================================================
+   FOUNDATIONAL CORE VALUES SYSTEM
+   ========================================================================== */
+.value-box {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 35px 25px;
+    text-align: center;
+    border-radius: var(--radius-md);
+    transition: var(--transition-smooth);
+}
+
+.value-box:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-color: var(--primary);
+    transform: translateY(-4px);
+}
+
+.value-box .letter {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 15px;
+}
+
+.value-box h4 {
+    color: var(--white);
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+}
+
+.value-box p {
+    color: #9ca3af;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   SERMON ARCHIVE ARCHITECTURE
+   ========================================================================== */
+.sermon-card {
+    background-color: var(--white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-elegant);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-4px);
+}
+
+.sermon-thumbnail {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.sermon-thumbnail img {
+    height: 100%;
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover .sermon-thumbnail img {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+.sermon-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover .sermon-overlay {
+    opacity: 1;
+}
+
+.play-trigger {
+    width: 55px;
+    height: 55px;
+    background-color: var(--primary);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 10px rgba(15, 118, 110, 0.4);
+}
+
+.sermon-tag {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: var(--accent);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.5px;
+}
+
+.sermon-details {
+    padding: 24px;
+}
+
+.sermon-meta {
+    font-size: 0.82rem;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.sermon-details h3 {
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+}
+
+.sermon-details .speaker {
+    font-size: 0.92rem;
+    color: var(--primary);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.sermon-actions {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-color);
+    padding-top: 15px;
+}
+
+.action-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4b5563;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.action-link:hover { color: var(--primary); }
+.action-link.download { color: #6b7280; }
+.action-link.download:hover { color: var(--black); }
+
+/* ==========================================================================
+   UPCOMING EVENTS GATHERINGS PANELS
+   ========================================================================== */
+.event-card {
+    background-color: var(--white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-elegant);
+    border: 1px solid var(--border-color);
+}
+
+.event-img-wrap {
+    position: relative;
+    height: 180px;
+    background-color: #eaeaea;
+}
+
+.event-img-wrap img {
+    height: 100%;
+}
+
+.event-date-badge {
+    position: absolute;
+    bottom: -20px;
+    left: 24px;
+    background-color: var(--white);
+    box-shadow: var(--shadow-elegant);
+    width: 60px;
+    height: 65px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-top: 3px solid var(--primary);
+    z-index: 10;
+}
+
+.event-date-badge .day {
+    font-size: 1.3rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--black);
+}
+
+.event-date-badge .month {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.event-body {
+    padding: 35px 24px 24px;
+}
+
+.event-tag-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.event-body h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.event-meta-info {
+    display: flex;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 15px;
+}
+
+.event-meta-info span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.event-excerpt {
+    font-size: 0.9rem;
+    color: #4b5563;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   MINISTRIES AFFINITY SYSTEM
+   ========================================================================== */
+.ministry-item-card {
+    background-color: var(--white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-4px);
+}
+
+.ministry-image-frame {
+    position: relative;
+    height: 220px;
+    background-color: #000;
+}
+
+.ministry-image-frame img {
+    height: 100%;
+}
+
+.ministry-icon-badge {
+    position: absolute;
+    right: 20px;
+    bottom: -20px;
+    width: 48px;
+    height: 48px;
+    background-color: var(--primary);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.ministry-content-body {
+    padding: 35px 24px 24px;
+}
+
+.affinity-tag {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.ministry-content-body h3 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+}
+
+.ministry-content-body p {
+    font-size: 0.92rem;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.ministry-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ministry-link:hover {
+    color: var(--primary-hover);
+}
+
+.ministry-link i {
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-link i {
+    transform: translateX(4px);
+}
+
+/* ==========================================================================
+   SAFARI SMALL GROUPS RELATIONAL INTERFACES
+   ========================================================================== */
+.milestone-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.milestone-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.milestone-item i {
+    font-size: 1.25rem;
+    color: var(--primary);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   GLOBAL ARCHITECTURAL FOOTER
+   ========================================================================== */
+.global-footer {
+    background-color: var(--black);
+    color: #9ca3af;
+    position: relative;
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT MATRIX CONSTRAINTS (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .grid-5 { grid-template-columns: repeat(3, 1fr); }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .section { padding: 60px 0; }
+    .section-title { font-size: 2rem; }
+    
+    /* Layout Unification Adjustments */
+    [class^="grid-"] {
+        grid-template-columns: 1fr !important;
+    }
+    .gap-3, .gap-4 { gap: 24px; }
+    
+    /* Navbar Mobile Handling Stack */
+    .nav-links { display: none; } /* Standard architectural framework integration requires JS toggle toggles */
+    
+    /* Sunday Service Info Panel Floaters Pullback */
+    [id="services"] .grid-3 {
+        margin-top: -60px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-5 { grid-template-columns: 1fr !important; }
+    .info-panel-card { padding: 24px; }
+}
