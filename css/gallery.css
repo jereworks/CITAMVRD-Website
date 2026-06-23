@@ -882,7 +882,7 @@ h1, h2, h3, h4, h5 {
 }
 
 /* ==========================================================================
-   9. BREAKPOINT RESPONSIVENESS
+   9. BREAKPOINT RESPONSIVENESS (UPDATED FOR MOBILE NAV ACTIONS)
    ========================================================================== */
 @media(max-width: 1199px) {
     .slide-content h1 { font-size: 3.8rem; }
@@ -890,31 +890,94 @@ h1, h2, h3, h4, h5 {
 }
 
 @media(max-width: 991px) {
-    .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; gap: 40px; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+    .grid-5 { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    
     .services-panel { margin-top: -60px; }
     .top-bar { display: none; }
     .header { top: 0; background: rgba(17, 17, 17, 0.95); backdrop-filter: blur(10px); }
     .slide-content h1 { font-size: 3rem; }
-}
 
-@media(max-width: 767px) {
-    .section { padding: 80px 0; }
-    .hamburger { display: block; }
+    .hamburger { 
+        display: block; 
+        margin: 0; /* Clear default margins to align true center with the button */
+    }
+    
+    /* Navigation Drawer Menu */
     .nav-menu {
         position: absolute;
         top: 100%; left: 0; width: 100%;
         background: #111;
         flex-direction: column;
-        padding: 30px 0;
+        padding: 20px 0;
         clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
         transition: var(--transition-smooth);
+        max-height: calc(100vh - 70px); 
+        overflow-y: auto; 
     }
     .nav-menu.show { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-    .nav-list { flex-direction: column; align-items: center; gap: 20px; }
-    .btn-nav, .nav-links { display: none; }
+    
+    .nav-list { flex-direction: column; align-items: center; gap: 0; width: 100%; }
+    .nav-list a { display: block; width: 100%; text-align: center; padding: 14px 20px; }
+    
+    /* Only hide normal text nav-links, keeping the modular button explicit */
+    .nav-links { display: none; }
     .about-hero-banner h1 { font-size: 2.8rem; }
 }
 
+@media(max-width: 767px) {
+    .section { padding: 80px 0; }
+    .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; gap: 24px; }
+    
+    /* Brand Scaling */
+    .header-logo { gap: 10px; }
+    .logo-img { height: 46px; } 
+    .logo-title { font-size: 1.6rem; } 
+    .logo-subtitle { font-size: 0.52rem; margin-top: 3px; }
+
+    /* 📲 Keep Action Container Visible & Centered Side-by-Side */
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px; /* Clean gap between Give Button and Hamburger */
+    }
+
+    /* Keep Give/Tithe Button Visible & Optimize for Mobile Navbar Proportions */
+    .btn-nav {
+        display: inline-flex !important; /* Force visibility override */
+        align-items: center;
+        justify-content: center;
+        padding: 8px 14px;  /* Sleeker padding to maximize navbar breathing room */
+        font-size: 0.8rem;   /* Crisp, legible typography profile */
+        white-space: nowrap; /* Prevents text from awkwardly wrapping to two lines */
+    }
+
+    .hamburger { 
+        display: block; 
+        margin: 0; /* Clear default margins to align true center with the button */
+    }
+    
+    /* Navigation Drawer Menu */
+    .nav-menu {
+        position: absolute;
+        top: 100%; left: 0; width: 100%;
+        background: #111;
+        flex-direction: column;
+        padding: 20px 0;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: var(--transition-smooth);
+        max-height: calc(100vh - 70px); 
+        overflow-y: auto; 
+    }
+    .nav-menu.show { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    
+    .nav-list { flex-direction: column; align-items: center; gap: 0; width: 100%; }
+    .nav-list a { display: block; width: 100%; text-align: center; padding: 14px 20px; }
+    
+    /* Only hide normal text nav-links, keeping the modular button explicit */
+    .nav-links { display: none; }
+    .about-hero-banner h1 { font-size: 2.8rem; }
+}
         
 .accordion-item { border-bottom: 1px solid #eee; margin-bottom: 10px; }
 .accordion-header { width: 100%; padding: 20px; background: #f9f9f9; border: none; text-align: left; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
