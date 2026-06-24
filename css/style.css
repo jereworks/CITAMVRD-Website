@@ -977,6 +977,127 @@ h1, h2, h3, h4, h5 {
     .about-hero-banner h1 { font-size: 2.8rem; }
 }
 
+/* ==========================================================================
+   COMPLETE RESPONSIVE HEADER ENGINE (Logo, Give Button & Hamburger Safety)
+   ========================================================================== */
+
+/* --- 1. GLOBAL LAYOUT SAFEGUARDS --- */
+.nav-container {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important; /* Absolutely prevents items from dropping to a new line */
+}
+
+.nav-actions {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    gap: clamp(8px, 1.8vw, 20px) !important; /* Dynamic space between button and hamburger */
+}
+
+
+/* --- 2. FLUID DESIGN TOKENS (Desktop down to Tablets) --- */
+/* Logo & Typography */
+.logo {
+    gap: clamp(8px, 1.5vw, 15px) !important;
+}
+.logo img {
+    height: clamp(48px, 5vw, 70px) !important;
+    width: auto !important;
+}
+.logo div span:first-of-type {
+    font-size: clamp(1.45rem, 2.3vw, 2.2rem) !important;
+}
+.logo div span:last-of-type {
+    font-size: clamp(0.5rem, 0.75vw, 0.7rem) !important;
+    margin-top: clamp(2px, 0.5vw, 6px) !important;
+}
+
+/* Give / Tithe Button */
+.btn-nav {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important; /* Prevents text fragmentation */
+    padding: clamp(8px, 1.1vw, 14px) clamp(12px, 2vw, 34px) !important; /* Fluid scaling padding */
+    font-size: clamp(0.72rem, 1vw, 0.85rem) !important; /* Fluid text size */
+    letter-spacing: clamp(0.5px, 0.15vw, 2px) !important;
+}
+
+/* Hamburger Target Protection */
+.hamburger {
+    color: var(--white) !important;
+    font-size: clamp(1.35rem, 2vw, 1.6rem) !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    padding: 6px !important; /* Ensures healthy touch target size */
+    z-index: 1001 !important;
+}
+
+
+/* --- 3. MOBILE SYSTEM BREAKPOINTS (768px and down) --- */
+@media (max-width: 768px) {
+    .logo {
+        gap: 10px !important;
+    }
+    .logo img {
+        height: 52px !important;
+    }
+    .logo div span:first-of-type {
+        font-size: 1.65rem !important;
+        letter-spacing: 1px !important;
+    }
+    .logo div span:last-of-type {
+        font-size: 0.55rem !important;
+        margin-top: 4px !important;
+    }
+    .btn-nav {
+        padding: 8px 16px !important;
+        font-size: 0.78rem !important;
+        letter-spacing: 1px !important;
+    }
+    .hamburger {
+        display: block !important; /* Guarantees layout rendering */
+        font-size: 1.45rem !important;
+    }
+}
+
+
+/* --- 4. MICRO-PHONE OPTIMIZATION (400px down to extreme 320px screens) --- */
+@media (max-width: 400px) {
+    .nav-actions {
+        gap: 6px !important;
+    }
+    .logo {
+        gap: 6px !important;
+    }
+    .logo img {
+        height: 42px !important;
+    }
+    .logo div span:first-of-type {
+        font-size: 1.35rem !important;
+        letter-spacing: 0.5px !important;
+    }
+    .logo div span:last-of-type {
+        font-size: 0.45rem !important;
+        margin-top: 1px !important;
+    }
+    /* Compact the Give Button cleanly to protect row real-estate */
+    .btn-nav {
+        padding: 6px 10px !important;
+        font-size: 0.68rem !important;
+        letter-spacing: 0.5px !important;
+    }
+    /* Lock the Hamburger size down to stay perfectly legible and accessible */
+    .hamburger {
+        display: block !important;
+        font-size: 1.35rem !important;
+        padding: 4px !important;
+    }
+}
+
         
 .accordion-item { border-bottom: 1px solid #eee; margin-bottom: 10px; }
 .accordion-header { width: 100%; padding: 20px; background: #f9f9f9; border: none; text-align: left; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
