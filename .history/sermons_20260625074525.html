@@ -10,27 +10,7 @@
 </head>
 <body>
 
-    <!-- Artistic Cinematic Preloader -->
-    <div id="citam-preloader">
-        <div class="loader-artistic-canvas">
-            <!-- Counter-rotating ethereal rings -->
-            <div class="loader-rings">
-                <div class="ring ring-outer"></div>
-                <div class="ring ring-inner"></div>
-            </div>
-            
-            <!-- Pulsing Center Logo -->
-            <div class="loader-logo-wrapper">
-                <img src="images/CITAMLOGO.svg" alt="CITAM Logo" class="loader-logo-img">
-            </div>
-        </div>
-        
-        <!-- Blur-reveal Typography -->
-        <div class="loader-text-brand">
-            <span class="loader-title">CITAM</span>
-            <span class="loader-subtitle">Valley Road</span>
-        </div>
-    </div>
+    
 
     <!-- Top Contact Utility Bar -->
     <div class="top-bar">
@@ -264,23 +244,6 @@
             // Target all animated elements on the page
             const animatableElements = document.querySelectorAll('.animate-on-scroll');
             animatableElements.forEach(el => revealObserver.observe(el));
-        });
-
-        // Artistic Preloader Logic
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('citam-preloader');
-            
-            if (preloader) {
-                // Wait an extra 800ms so the text blur-reveal finishes nicely
-                setTimeout(() => {
-                    preloader.classList.add('preloader-hidden');
-                    
-                    // Remove from DOM strictly after the 1-second CSS fade completes
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                    }, 1000); 
-                }, 800); 
-            }
         });
     </script>
 

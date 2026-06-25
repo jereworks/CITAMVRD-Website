@@ -521,23 +521,6 @@
 
         renderCalendar();
     });
-
-    // Artistic Preloader Logic
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('citam-preloader');
-            
-            if (preloader) {
-                // Wait an extra 800ms so the text blur-reveal finishes nicely
-                setTimeout(() => {
-                    preloader.classList.add('preloader-hidden');
-                    
-                    // Remove from DOM strictly after the 1-second CSS fade completes
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                    }, 1000); 
-                }, 800); 
-            }
-        });
     </script>
 
  </body>

@@ -206,104 +206,6 @@ h1, h2, h3, h4, h5 {
 }
 
 /* ==========================================================================
-   PRELOADER RESPONSIVE ADJUSTMENTS
-   ========================================================================== */
-
-/* Tablet & Smaller Desktop Screens */
-@media (max-width: 768px) {
-    .loader-artistic-canvas {
-        width: 130px;
-        height: 130px;
-        margin-bottom: 25px;
-    }
-
-    .loader-logo-wrapper {
-        width: 60px;
-    }
-
-    .ring-inner {
-        top: 12px;
-        left: 12px;
-        width: calc(100% - 24px);
-        height: calc(100% - 24px);
-    }
-
-    .loader-title {
-        font-size: 1.8rem;
-        letter-spacing: 5px;
-    }
-
-    .loader-subtitle {
-        font-size: 0.75rem;
-        letter-spacing: 3px;
-    }
-}
-
-/* Mobile Screens */
-@media (max-width: 480px) {
-    .loader-artistic-canvas {
-        width: 100px;
-        height: 100px;
-        margin-bottom: 20px;
-    }
-
-    .loader-logo-wrapper {
-        width: 45px;
-    }
-
-    .ring-inner {
-        top: 10px;
-        left: 10px;
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
-    }
-
-    .loader-title {
-        font-size: 1.5rem;
-        letter-spacing: 4px;
-        margin-bottom: 5px;
-    }
-
-    .loader-subtitle {
-        font-size: 0.65rem;
-        letter-spacing: 2px;
-    }
-}
-
-/* ==========================================================================
-   ROUND SERMON LOADER & TEXT
-   ========================================================================== */
-.sermon-spinner {
-    width: 55px;
-    height: 55px;
-    border: 3px solid rgba(193, 18, 31, 0.1); /* Subtle red track */
-    border-top-color: var(--primary); /* Solid brand red indicator */
-    border-radius: 50%;
-    animation: spinLoader 1s linear infinite;
-    margin-bottom: 20px;
-}
-
-.sermon-loading-text {
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--dark);
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    animation: pulseOpacity 1.5s ease-in-out infinite alternate;
-}
-
-@keyframes spinLoader { 
-    0% { transform: rotate(0deg); } 
-    100% { transform: rotate(360deg); } 
-}
-
-@keyframes pulseOpacity { 
-    0% { opacity: 0.4; } 
-    100% { opacity: 1; } 
-}
-
-/* ==========================================================================
    2. REUSABLE UTILITY LAYOUT ENGINE
    ========================================================================== */
 .container {
@@ -1130,9 +1032,11 @@ h1, h2, h3, h4, h5 {
 .animate-on-scroll.active.reveal-up, 
 .animate-on-scroll.active.reveal-left, 
 .animate-on-scroll.active.reveal-right,
+.animate-on-scroll.active.slide-up,
 .active.reveal-up, 
 .active.reveal-left, 
-.active.reveal-right { 
+.active.reveal-right,
+.active.slide-up { 
     transform: translate(0); 
     opacity: 1; 
 }
@@ -1355,139 +1259,7 @@ h1, h2, h3, h4, h5 {
         padding: 4px !important;
     }
 }
-
-
-/* ==========================================================================
-   Banner Banner Banner Banner Banner Banner
-   ========================================================================== */
-
-/* This leaves the desktop image alone so JS doesn't break, */
-/* but forcefully forces the portrait image onto mobile screens */
-@media (max-width: 768px) {
-    .banner-2026 {
-        background-image: url('../images/2026Banner-Portrait.svg') !important;
-        background-size: cover !important;
-        background-position: center center !important;
-    }
-}
-
-/* ==========================================================================
-   RESPONSIVE SLIDER CONTENT ENGINE (Typography, Buttons & Layout)
-   ========================================================================== */
-
-/* --- 1. DYNAMIC FLUID SCALING (Desktop down to Tablets) --- */
-
-/* Content Wrapper Constraints */
-.slide-content {
-    padding: 0 clamp(20px, 5vw, 50px); /* Keeps text safely away from screen edges */
-}
-
-/* Small Subheading Text ("Our Mission is...") */
-.slide-content .subheading {
-    display: block;
-    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-    margin-bottom: clamp(8px, 1.2vw, 16px);
-    letter-spacing: 1.5px;
-}
-
-/* Main Heading ("To Know God & to Make Him Known") */
-.slide-content h1 {
-    font-size: clamp(1.85rem, 4.5vw, 3.8rem);
-    line-height: 1.15;
-    margin-bottom: clamp(12px, 2vw, 24px);
-    font-weight: 800;
-}
-
-/* Slide Description Paragraph */
-.slide-content .slide-text {
-    font-size: clamp(0.95rem, 1.3vw, 1.25rem);
-    max-width: 650px; /* Prevents text lines from getting unreadably long on wide screens */
-    line-height: 1.5;
-    margin-bottom: clamp(24px, 3vw, 40px);
-}
-
-/* Button Group Context */
-.slide-content .btn-group {
-    display: flex;
-    gap: clamp(10px, 1.5vw, 20px);
-    flex-wrap: wrap; /* Gracefully breaks to next line if text is wide */
-}
-
-/* Slider Custom Call-to-Action Buttons */
-.slide-content .btn {
-    padding: clamp(10px, 1.2vw, 15px) clamp(20px, 2.5vw, 36px);
-    font-size: clamp(0.82rem, 1.1vw, 1rem);
-    white-space: nowrap;
-    text-transform: uppercase;
-    font-weight: 600;
-    transition: var(--transition-smooth);
-}
-
-/* Slider Next/Prev Arrow Controls */
-.slider-btn {
-    width: clamp(38px, 5vw, 55px);
-    height: clamp(38px, 5vw, 55px);
-    font-size: clamp(0.95rem, 1.5vw, 1.3rem);
-}
-
-
-/* --- 2. TABLET & REGULAR MOBILE ADJUSTMENTS (768px and down) --- */
-@media (max-width: 768px) {
-    /* Remove the hardcoded inline <br> tags so text wraps naturally across lines */
-    .slide-content h1 br {
-        display: none; 
-    }
-    
-    .slide-content h1 {
-        letter-spacing: -0.5px;
-    }
-
-    .slider-btn {
-        opacity: 0.6; /* Softens arrow presence so they don't mask text on narrow screens */
-    }
-}
-
-
-/* --- 3. ULTRA-COMPACT SMARTPHONE ADJUSTMENTS (480px and down) --- */
-@media (max-width: 480px) {
-    .slide-content h1 {
-        font-size: 1.75rem;
-        line-height: 1.2;
-    }
-    
-    .slide-content .slide-text {
-        font-size: 0.9rem;
-        line-height: 1.45;
-        margin-bottom: 24px;
-    }
-    
-    /* Long strings like "Join a Safari Group" won't fit side-by-side on minor screens. 
-       Stacking them vertically prevents layout breaking. */
-    .slide-content .btn-group {
-        flex-direction: column;
-        width: 100%;
-        gap: 12px;
-    }
-    
-    /* Make buttons fully touch-accessible and uniform width */
-    .slide-content .btn {
-        width: 100%;
-        text-align: center;
-        padding: 12px 20px;
-        font-size: 0.85rem;
-    }
-    
-    /* Relocate slider arrows to extreme edges to free up center container space */
-    .slider-btn {
-        width: 34px;
-        height: 34px;
-        font-size: 0.85rem;
-    }
-    .slider-btn.prev { left: 5px; }
-    .slider-btn.next { right: 5px; }
-}
-
-   
+        
 .accordion-item { border-bottom: 1px solid #eee; margin-bottom: 10px; }
 .accordion-header { width: 100%; padding: 20px; background: #f9f9f9; border: none; text-align: left; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
 .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: var(--transition-smooth); background: white; }
@@ -2213,6 +1985,3 @@ h1, h2, h3, h4, h5 {
 /* Map Section Styles */
 .map-wrapper { width: 100%; height: 450px; background-color: #eee; }
 .map-wrapper iframe { width: 100%; height: 100%; border: none; display: block; }
-
-
-

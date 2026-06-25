@@ -271,39 +271,6 @@ h1, h2, h3, h4, h5 {
 }
 
 /* ==========================================================================
-   ROUND SERMON LOADER & TEXT
-   ========================================================================== */
-.sermon-spinner {
-    width: 55px;
-    height: 55px;
-    border: 3px solid rgba(193, 18, 31, 0.1); /* Subtle red track */
-    border-top-color: var(--primary); /* Solid brand red indicator */
-    border-radius: 50%;
-    animation: spinLoader 1s linear infinite;
-    margin-bottom: 20px;
-}
-
-.sermon-loading-text {
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--dark);
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    animation: pulseOpacity 1.5s ease-in-out infinite alternate;
-}
-
-@keyframes spinLoader { 
-    0% { transform: rotate(0deg); } 
-    100% { transform: rotate(360deg); } 
-}
-
-@keyframes pulseOpacity { 
-    0% { opacity: 0.4; } 
-    100% { opacity: 1; } 
-}
-
-/* ==========================================================================
    2. REUSABLE UTILITY LAYOUT ENGINE
    ========================================================================== */
 .container {

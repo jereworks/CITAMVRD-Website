@@ -283,27 +283,7 @@
 </head>
 <body class="gallery-page">
 
-    <!-- Artistic Cinematic Preloader -->
-    <div id="citam-preloader">
-        <div class="loader-artistic-canvas">
-            <!-- Counter-rotating ethereal rings -->
-            <div class="loader-rings">
-                <div class="ring ring-outer"></div>
-                <div class="ring ring-inner"></div>
-            </div>
-            
-            <!-- Pulsing Center Logo -->
-            <div class="loader-logo-wrapper">
-                <img src="images/CITAMLOGO.svg" alt="CITAM Logo" class="loader-logo-img">
-            </div>
-        </div>
-        
-        <!-- Blur-reveal Typography -->
-        <div class="loader-text-brand">
-            <span class="loader-title">CITAM</span>
-            <span class="loader-subtitle">Valley Road</span>
-        </div>
-    </div>
+    
 
     <div class="top-bar" style="background-color: #050505; border-bottom: 1px solid rgba(255,255,255,0.02);">
         <div class="container top-bar-flex">
@@ -878,23 +858,6 @@
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
             });
-        });
-
-        // Artistic Preloader Logic
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('citam-preloader');
-            
-            if (preloader) {
-                // Wait an extra 800ms so the text blur-reveal finishes nicely
-                setTimeout(() => {
-                    preloader.classList.add('preloader-hidden');
-                    
-                    // Remove from DOM strictly after the 1-second CSS fade completes
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                    }, 1000); 
-                }, 800); 
-            }
         });
     </script>
 </body>

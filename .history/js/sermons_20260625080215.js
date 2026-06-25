@@ -372,18 +372,23 @@ class SermonApp {
     }
 
     renderLoading() {
-        // 1. Show the prominent Round Loader & Text in the Featured Section
+        // 1. Show a loading skeleton for the Featured Sermon at the top
         if (this.elements.featuredContainer && this.elements.featured) {
             this.elements.featuredContainer.style.display = 'block';
             this.elements.featured.innerHTML = `
-                <div style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 20px; background: var(--white); border-radius: 8px;">
-                    <div class="sermon-spinner"></div>
-                    <div class="sermon-loading-text">Loading Sermons...</div>
+                <div class="featured-video-frame skeleton-box" style="background: #e2e2e2;"></div>
+                <div class="featured-info">
+                    <div class="skeleton-line skeleton-box" style="width: 20%; height: 12px; margin-bottom: 15px;"></div>
+                    <div class="skeleton-line title skeleton-box" style="width: 80%; height: 32px; margin-bottom: 20px;"></div>
+                    <div class="skeleton-line skeleton-box" style="width: 100%; margin-bottom: 10px;"></div>
+                    <div class="skeleton-line skeleton-box" style="width: 90%; margin-bottom: 10px;"></div>
+                    <div class="skeleton-line skeleton-box" style="width: 95%; margin-bottom: 20px;"></div>
+                    <div class="skeleton-line action skeleton-box" style="width: 30%; height: 20px;"></div>
                 </div>
             `;
         }
 
-        // 2. Keep the Skeleton Grid below to maintain page layout
+        // 2. Generate exactly 8 skeleton cards to fill the Grid layout cleanly
         let skeletonHTML = '';
         for (let i = 0; i < 8; i++) {
             skeletonHTML += `

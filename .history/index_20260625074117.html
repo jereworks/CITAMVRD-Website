@@ -569,23 +569,23 @@
             animatableElements.forEach(el => revealObserver.observe(el));
         });
 
-        // Artistic Preloader Logic
+        // Preloader Logic
         window.addEventListener('load', () => {
             const preloader = document.getElementById('citam-preloader');
             
             if (preloader) {
-                // Wait an extra 800ms so the text blur-reveal finishes nicely
+                // Optional 500ms delay to ensure the elegant entrance animation is seen
+                // even if the page loads instantaneously from cache.
                 setTimeout(() => {
                     preloader.classList.add('preloader-hidden');
                     
-                    // Remove from DOM strictly after the 1-second CSS fade completes
+                    // Completely remove the loader from the DOM after the CSS transition finishes
                     setTimeout(() => {
                         preloader.style.display = 'none';
-                    }, 1000); 
-                }, 800); 
+                    }, 800); // This matches your 0.8s CSS transition
+                }, 500); 
             }
         });
-        
     </script>
     <script src="js/main.js" defer></script>
 </body>
