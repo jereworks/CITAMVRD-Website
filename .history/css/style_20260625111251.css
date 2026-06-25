@@ -1,0 +1,2463 @@
+/* ==========================================================================
+   1. GLOBAL DESIGN TOKENS & BASE DEFAULTS
+   ========================================================================== */
+:root {
+    /* Color Palette */
+    --primary: #c1121f;              /* Deep Cinematic Red */
+    --primary-hover: #780000;        /* Rich Crimson */
+    --dark: #111111;                 /* True Obsidian Dark */
+    --light: #f5f5f5;                /* Premium Velvet Light Gray */
+    --white: #ffffff;
+    --text-muted: #666666;
+    
+    /* Typography */
+    --font-sans: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    /* Effects & Transitions */
+    --transition-smooth: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.05);
+    --shadow-heavy: 0 30px 60px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--text-muted);
+    background-color: var(--white);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5 {
+    color: var(--dark);
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+/* ==========================================================================
+   ARTISTIC PRELOADER SYSTEM
+   ========================================================================== */
+#citam-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--dark);
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Luxurious fade-out and slight zoom-in effect upon completion */
+    transition: opacity 1s cubic-bezier(0.65, 0, 0.35, 1), transform 1s ease, visibility 1s;
+}
+
+.loader-artistic-canvas {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+/* The Logo Breathing Effect */
+.loader-logo-wrapper {
+    position: absolute;
+    z-index: 2;
+    width: 75px;
+    height: auto;
+    /* Soft, continuous pulsing animation */
+    animation: breathPulse 2s ease-in-out infinite alternate;
+}
+
+.loader-logo-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* Adds a cinematic red glow behind the pure white SVG */
+    filter: drop-shadow(0 0 15px rgba(193, 18, 31, 0.5));
+}
+
+/* Ethereal Orbiting Rings */
+.loader-rings {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+}
+
+.ring-outer {
+    border-top-color: var(--primary);
+    border-bottom-color: var(--primary);
+    /* Snappy, energetic rotation */
+    animation: spinRotate 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    opacity: 0.9;
+}
+
+.ring-inner {
+    top: 15px;
+    left: 15px;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    border-left-color: rgba(255, 255, 255, 0.2);
+    border-right-color: rgba(255, 255, 255, 0.2);
+    /* Smooth, linear reverse rotation for contrast */
+    animation: spinRotateReverse 3s linear infinite;
+}
+
+/* Typography Animation */
+.loader-text-brand {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loader-title {
+    font-family: var(--font-sans);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 6px;
+    line-height: 1;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: cinematicTextReveal 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.2s;
+}
+
+.loader-subtitle {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #aaaaaa;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    opacity: 0;
+    animation: cinematicTextReveal 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.5s;
+}
+
+/* CSS Keyframe Animations */
+@keyframes breathPulse {
+    0% { 
+        transform: scale(0.92); 
+        opacity: 0.8; 
+        filter: drop-shadow(0 0 10px rgba(193, 18, 31, 0.2)); 
+    }
+    100% { 
+        transform: scale(1.08); 
+        opacity: 1; 
+        filter: drop-shadow(0 0 25px rgba(193, 18, 31, 0.8)); 
+    }
+}
+
+@keyframes spinRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes spinRotateReverse {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes cinematicTextReveal {
+    0% { 
+        opacity: 0; 
+        transform: translateY(15px) scale(0.95); 
+        filter: blur(8px); 
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+        filter: blur(0); 
+    }
+}
+
+/* Triggered by JS when the site is fully loaded */
+.preloader-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(1.05); /* Creates a feeling of flying 'through' the loader into the site */
+}
+
+/* ==========================================================================
+   PRELOADER RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+/* Tablet & Smaller Desktop Screens */
+@media (max-width: 768px) {
+    .loader-artistic-canvas {
+        width: 130px;
+        height: 130px;
+        margin-bottom: 25px;
+    }
+
+    .loader-logo-wrapper {
+        width: 60px;
+    }
+
+    .ring-inner {
+        top: 12px;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: calc(100% - 24px);
+    }
+
+    .loader-title {
+        font-size: 1.8rem;
+        letter-spacing: 5px;
+    }
+
+    .loader-subtitle {
+        font-size: 0.75rem;
+        letter-spacing: 3px;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 480px) {
+    .loader-artistic-canvas {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+
+    .loader-logo-wrapper {
+        width: 45px;
+    }
+
+    .ring-inner {
+        top: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+    }
+
+    .loader-title {
+        font-size: 1.5rem;
+        letter-spacing: 4px;
+        margin-bottom: 5px;
+    }
+
+    .loader-subtitle {
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+    }
+}
+
+/* ==========================================================================
+   ROUND SERMON LOADER & TEXT
+   ========================================================================== */
+.sermon-spinner {
+    width: 55px;
+    height: 55px;
+    border: 3px solid rgba(193, 18, 31, 0.1); /* Subtle red track */
+    border-top-color: var(--primary); /* Solid brand red indicator */
+    border-radius: 50%;
+    animation: spinLoader 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.sermon-loading-text {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--dark);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    animation: pulseOpacity 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes spinLoader { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+}
+
+@keyframes pulseOpacity { 
+    0% { opacity: 0.4; } 
+    100% { opacity: 1; } 
+}
+
+/* ==========================================================================
+   2. REUSABLE UTILITY LAYOUT ENGINE
+   ========================================================================== */
+.container {
+    width: 92%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.section {
+    padding: 120px 0;
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+/* Backgrounds & Colors */
+.bg-white { background-color: var(--white); }
+.bg-light { background-color: var(--light); }
+.bg-dark { background-color: var(--dark); }
+.text-primary { color: var(--primary) !important; }
+.text-white { color: var(--white) !important; }
+.text-center { text-align: center; }
+
+/* Spacing */
+.mt-2 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 4rem; }
+.mb-4 { margin-bottom: 4rem; }
+
+/* Typography Utilities */
+.max-width-text { 
+    max-width: 700px; 
+    margin: 0 auto; 
+    color: #888; 
+    font-size: 1.05rem; 
+}
+.section-subtitle {
+    display: block;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--dark);
+    margin-bottom: 20px;
+}
+
+/* Responsive Utility Grids */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; align-items: center; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+.gap-2 { gap: 1.5rem; }
+.gap-3 { gap: 2.5rem; }
+.gap-4 { gap: 4rem; }
+.alignment-center { align-items: center; }
+
+/* ==========================================================================
+   3. HIGH-PREMIUM INTERACTIVE ELEMENTS
+   ========================================================================== */
+.btn {
+    display: inline-block;
+    padding: 14px 34px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 0px; 
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    border: 2px solid transparent;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--primary);
+    transform: translateY(-3px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--white);
+    border-color: var(--white);
+}
+
+.btn-outline:hover {
+    background-color: var(--white);
+    color: var(--dark);
+    transform: translateY(-3px);
+}
+
+.btn-full {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 12px 20px;
+    background: var(--light);
+    color: var(--dark);
+    border: none;
+}
+
+.btn-full:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.img-fluid { width: 100%; height: auto; display: block; }
+.rounded { border-radius: 4px; }
+.shadow-elegant { box-shadow: var(--shadow-heavy); }
+.border-bottom-soft { border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+
+/* ==========================================================================
+   4. HEADER & NAVIGATION SYSTEMS
+   ========================================================================== */
+/* Top Utility Bar */
+.top-bar {
+    background-color: #0b0b0b;
+    padding: 10px 0;
+    font-size: 0.8rem;
+    color: #999;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.top-bar-flex { display: flex; justify-content: space-between; align-items: center; }
+.top-info span { margin-right: 25px; display: inline-flex; align-items: center; gap: 8px; }
+.top-info i { color: var(--primary); }
+.top-social a { color: #999; margin-left: 15px; transition: var(--transition-smooth); }
+.top-social a:hover { color: var(--white); }
+
+/* Transparent Sticky Header (Home Page) */
+.header {
+    position: fixed;
+    top: 42px; 
+    left: 0; width: 100%;
+    padding: 25px 0;
+    z-index: 999;
+    transition: var(--transition-smooth);
+    background: transparent;
+}
+
+.header.scrolled {
+    top: 0;
+    background: rgba(17, 17, 17, 0.98);
+    padding: 15px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+}
+
+.nav-container { display: flex; justify-content: space-between; align-items: center; }
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.logo span {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: #aaa;
+    margin-top: -2px;
+}
+
+.nav-list { display: flex; gap: 32px; list-style: none; }
+
+.nav-list a {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.nav-list a:hover, .nav-list a.active {
+    color: var(--white);
+}
+
+.nav-actions { display: flex; align-items: center; gap: 20px; }
+.hamburger { display: none; background: none; border: none; color: var(--white); font-size: 1.4rem; cursor: pointer; }
+
+/* Global Solid Navbar (Inner Pages) */
+.global-navbar {
+    background: var(--white);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-brand {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--dark);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-icon {
+    color: var(--primary);
+    font-size: 1.4rem;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #444;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--primary);
+}
+
+.nav-links a.nav-cta {
+    background: var(--primary);
+    color: var(--white);
+    padding: 10px 22px;
+    font-weight: 600;
+}
+
+.nav-links a.nav-cta:hover {
+    background: var(--primary-hover);
+}
+
+/* ==========================================================================
+   5. HERO SECTIONS & SLIDERS
+   ========================================================================== */
+.hero-slider {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.slide.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
+}
+
+.overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to right, rgba(11, 11, 11, 0.85) 30%, rgba(11, 11, 11, 0.4));
+    z-index: 2;
+}
+
+.slide-content {
+    position: relative;
+    z-index: 3;
+    color: var(--white);
+    max-width: 800px;
+}
+
+.subheading {
+    display: inline-block;
+    color: var(--primary);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+.slide-content h1 {
+    font-size: 4.8rem;
+    font-weight: 800;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.slide-text {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 40px;
+    max-width: 650px;
+}
+
+.btn-group { display: flex; gap: 15px; }
+
+/* Slider Controls */
+.slider-btn {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    width: 60px; height: 60px;
+    cursor: pointer; z-index: 10;
+    transition: var(--transition-smooth);
+}
+
+.slider-btn:hover { background: var(--primary); border-color: var(--primary); }
+.slider-btn.prev { left: 40px; }
+.slider-btn.next { right: 40px; }
+
+/* Inner Page Hero Banner */
+.about-hero-banner {
+    background: linear-gradient(rgba(17, 17, 17, 0.85), rgba(17, 17, 17, 0.85)), 
+                url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+    padding: 140px 0 110px;
+    color: var(--white);
+}
+
+.hero-pre-tag {
+    display: inline-block;
+    color: var(--primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.about-hero-banner h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+.hero-subtext {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.15rem;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   6. UI CARDS & PANELS (HOME & ABOUT)
+   ========================================================================== */
+/* Services Overlap Panel */
+.services-panel {
+    margin-top: -180px;
+    position: relative;
+    z-index: 15;
+}
+
+.info-panel-card {
+    background: var(--white);
+    padding: 50px 40px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+    border-top: 4px solid #ddd;
+    transition: var(--transition-smooth);
+}
+
+.info-panel-card.highlighted {
+    background: var(--dark);
+    color: var(--white);
+    border-top-color: var(--primary);
+}
+
+.info-panel-card.highlighted h3 { color: var(--white); }
+
+.info-panel-card:hover {
+    transform: translateY(-10px);
+}
+
+.icon-wrap {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 25px;
+}
+
+.schedule-list { list-style: none; }
+.schedule-list li {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: 8px;
+}
+.info-panel-card.highlighted .schedule-list li {
+    border-bottom-color: rgba(255,255,255,0.05);
+}
+
+/* C-I-T-A-M Value Grid */
+.value-box {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 40px 24px;
+    text-align: center;
+    transition: var(--transition-smooth);
+}
+
+.value-box:hover {
+    background: var(--white);
+    color: var(--dark);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-premium);
+}
+
+.value-box:hover h4 { color: var(--dark); }
+
+.letter {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.value-box h4 {
+    color: var(--white);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.value-box p { font-size: 0.85rem; color: #888; }
+
+/* Sermon Cards */
+.sermon-card {
+    background: var(--white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-premium);
+    border-color: rgba(193, 18, 31, 0.2);
+}
+
+.sermon-thumbnail {
+    position: relative;
+    overflow: hidden;
+    background: var(--dark);
+}
+
+.sermon-thumbnail img {
+    transition: var(--transition-smooth);
+}
+
+.sermon-card:hover .sermon-thumbnail img {
+    transform: scale(1.06);
+    opacity: 0.75;
+}
+
+.sermon-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(17, 17, 17, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition-smooth);
+    z-index: 5;
+}
+
+.sermon-card:hover .sermon-overlay { opacity: 1; }
+
+.play-trigger {
+    width: 55px;
+    height: 55px;
+    background: var(--primary);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    transform: scale(0.8);
+}
+
+.sermon-card:hover .play-trigger { transform: scale(1); }
+
+.sermon-tag {
+    position: absolute;
+    top: 15px; left: 15px;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    letter-spacing: 1px;
+    z-index: 6;
+}
+
+.sermon-details { padding: 25px 20px; }
+.sermon-meta { display: block; font-size: 0.8rem; color: #999; margin-bottom: 8px; }
+.sermon-details h3 { font-size: 1.15rem; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sermon-details .speaker { font-size: 0.85rem; color: var(--primary); font-weight: 500; margin-bottom: 20px; }
+
+.sermon-actions {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 15px;
+}
+
+.action-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    color: var(--dark);
+}
+
+.action-link:hover { color: var(--primary); }
+.action-link.download { color: #888; }
+.action-link.download:hover { color: var(--dark); }
+
+/* Event Cards */
+.event-card {
+    background: var(--white);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    border-bottom: 3px solid transparent;
+    transition: var(--transition-smooth);
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-heavy);
+    border-bottom-color: var(--primary);
+}
+
+.event-img-wrap { position: relative; overflow: hidden; }
+
+.event-date-badge {
+    position: absolute;
+    bottom: 0; left: 20px;
+    background: var(--primary);
+    color: var(--white);
+    width: 65px;
+    padding: 10px 0;
+    text-align: center;
+    z-index: 5;
+}
+
+.event-date-badge .day { display: block; font-size: 1.4rem; font-weight: 800; line-height: 1; }
+.event-date-badge .month { display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 500; letter-spacing: 1px; }
+
+.event-body { padding: 30px 25px; }
+.event-tag-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.event-body h3 { font-size: 1.3rem; margin-bottom: 15px; }
+.event-meta-info {
+    display: flex;
+    gap: 20px;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+.event-meta-info i { color: var(--primary); }
+.event-excerpt { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+
+/* Ministry Cards */
+.ministry-item-card {
+    background: var(--white);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ministry-item-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-8px);
+    border-color: rgba(193, 18, 31, 0.15);
+}
+
+.ministry-image-frame {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--dark);
+    height: 220px;
+}
+
+.ministry-image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-image-frame img {
+    transform: scale(1.08);
+    opacity: 0.85;
+}
+
+.ministry-icon-badge {
+    position: absolute;
+    bottom: -20px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 20px rgba(193, 18, 31, 0.3);
+    z-index: 5;
+    transition: var(--transition-smooth);
+}
+
+.ministry-item-card:hover .ministry-icon-badge {
+    transform: translateY(-5px) rotate(360deg);
+}
+
+.ministry-content-body { padding: 35px 25px 25px; display: flex; flex-direction: column; flex-grow: 1; }
+.ministry-content-body h3 { font-size: 1.25rem; margin-bottom: 4px; color: var(--dark); }
+.affinity-tag { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--primary); letter-spacing: 1px; margin-bottom: 15px; }
+.ministry-content-body p { font-size: 0.9rem; color: #666; margin-bottom: 25px; line-height: 1.6; flex-grow: 1; }
+
+.ministry-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--dark);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+    margin-top: auto;
+}
+
+.ministry-item-card:hover .ministry-link { color: var(--primary); }
+.ministry-item-card:hover .ministry-link i { transform: translateX(5px); }
+
+/* Identity & Inner Page Cards */
+.identity-narrative p { color: #555; font-size: 1rem; margin-bottom: 20px; line-height: 1.7; }
+.identity-box {
+    background: var(--white);
+    padding: 40px 30px;
+    border-top: 4px solid var(--dark);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    transition: var(--transition-smooth);
+}
+.identity-box.card-vision { border-top-color: var(--primary); }
+.identity-box:hover { transform: translateY(-5px); box-shadow: var(--shadow-premium); }
+.icon-lead { font-size: 2.2rem; color: var(--primary); margin-bottom: 20px; }
+.identity-box h3 { font-size: 1.3rem; margin-bottom: 12px; color: var(--dark); }
+.identity-box p { font-size: 0.9rem; color: #666; line-height: 1.6; }
+
+/* Timeline Architecture */
+.timeline-wrapper {
+    position: relative;
+    max-width: 850px;
+    margin: 0 auto;
+    padding-left: 45px;
+    border-left: 3px solid rgba(193, 18, 31, 0.15);
+}
+
+.timeline-block { position: relative; margin-bottom: 45px; }
+.timeline-block:last-child { margin-bottom: 0; }
+
+.timeline-marker {
+    position: absolute;
+    left: -83px;
+    top: 0;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 2px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(193, 18, 31, 0.2);
+}
+
+.timeline-content {
+    background: var(--white);
+    padding: 30px 35px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+}
+.timeline-content h3 { font-size: 1.25rem; margin-bottom: 10px; color: var(--dark); }
+.timeline-content p { font-size: 0.92rem; color: #555; line-height: 1.6; }
+
+/* Leadership Profile */
+.leader-profile-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.05);
+    overflow: hidden;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.01);
+    transition: var(--transition-smooth);
+}
+.leader-profile-card:hover { box-shadow: var(--shadow-premium); transform: translateY(-5px); }
+
+.leader-avatar-frame { height: 340px; background-color: var(--dark); overflow: hidden; }
+.leader-avatar-frame img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth); }
+.leader-profile-card:hover .leader-avatar-frame img { transform: scale(1.04); }
+
+.leader-identity-info { padding: 30px 25px; }
+.leader-identity-info h3 { font-size: 1.3rem; margin-bottom: 4px; color: var(--dark); }
+.leader-rank {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+}
+.leader-identity-info p { font-size: 0.9rem; color: #666; line-height: 1.6; }
+
+/* List Styles */
+.milestone-list { display: flex; flex-direction: column; gap: 25px; }
+.milestone-item { display: flex; gap: 20px; align-items: flex-start; }
+.milestone-item i { font-size: 1.5rem; color: var(--primary); background: var(--white); padding: 15px; box-shadow: var(--shadow-premium); }
+.milestone-item h5 { font-size: 1.1rem; margin-bottom: 4px; color: var(--dark); }
+.milestone-item p { font-size: 0.9rem; color: #666; }
+
+/* ==========================================================================
+   7. FOOTER SYSTEMS
+   ========================================================================== */
+.footer, .global-footer {
+    background: #090909;
+    color: #777;
+    padding: 100px 0 30px;
+    font-size: 0.9rem;
+    border-top: 3px solid var(--primary);
+}
+
+.global-footer { padding: 40px 0; } /* About page tighter footer */
+
+.footer h3, .footer h4 { color: var(--white); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
+.footer h3 span { display: block; font-size: 0.75rem; color: var(--primary); }
+.footer ul { list-style: none; }
+.footer ul li { margin-bottom: 12px; }
+.footer ul li a { color: #777; text-decoration: none; transition: var(--transition-smooth); }
+.footer ul li a:hover { color: var(--primary); padding-left: 6px; }
+.footer-col ul li i { color: var(--primary); margin-right: 10px; }
+
+.social-links a {
+    display: inline-block;
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.03);
+    color: var(--white);
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.social-links a:hover { background: var(--primary); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.04); margin-top: 60px; padding-top: 30px; font-size: 0.85rem; }
+
+/* ==========================================================================
+   8. SCROLL ANIMATION ENGINE
+   ========================================================================== */
+.slide-up { transform: translateY(40px); opacity: 0; transition: var(--transition-smooth); }
+.slide-text.slide-up { transition-delay: 0.2s; }
+.btn-group.slide-up { transition-delay: 0.4s; }
+.slide.active .slide-up { transform: translateY(0); opacity: 1; }
+
+.reveal-up { transform: translateY(60px); opacity: 0; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+.reveal-left { transform: translateX(-60px); opacity: 0; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+.reveal-right { transform: translateX(60px); opacity: 0; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.3s; }
+.delay-3 { transition-delay: 0.45s; }
+.delay-4 { transition-delay: 0.6s; }
+
+/* Activated States hooked to JS intersection observer (.animate-on-scroll) */
+.animate-on-scroll.active.reveal-up, 
+.animate-on-scroll.active.reveal-left, 
+.animate-on-scroll.active.reveal-right,
+.active.reveal-up, 
+.active.reveal-left, 
+.active.reveal-right { 
+    transform: translate(0); 
+    opacity: 1; 
+}
+
+/* ==========================================================================
+   9. BREAKPOINT RESPONSIVENESS (UPDATED FOR MOBILE NAV ACTIONS)
+   ========================================================================== */
+@media(max-width: 1199px) {
+    .slide-content h1 { font-size: 3.8rem; }
+    .grid-5 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media(max-width: 991px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+    .grid-5 { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    
+    .services-panel { margin-top: -60px; }
+    .top-bar { display: none; }
+    .header { top: 0; background: rgba(17, 17, 17, 0.95); backdrop-filter: blur(10px); }
+    .slide-content h1 { font-size: 3rem; }
+
+    .hamburger { 
+        display: block; 
+        margin: 0; /* Clear default margins to align true center with the button */
+    }
+    
+    /* Navigation Drawer Menu */
+    .nav-menu {
+        position: absolute;
+        top: 100%; left: 0; width: 100%;
+        background: #111;
+        flex-direction: column;
+        padding: 20px 0;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: var(--transition-smooth);
+        max-height: calc(100vh - 70px); 
+        overflow-y: auto; 
+    }
+    .nav-menu.show { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    
+    .nav-list { flex-direction: column; align-items: center; gap: 0; width: 100%; }
+    .nav-list a { display: block; width: 100%; text-align: center; padding: 14px 20px; }
+    
+    /* Only hide normal text nav-links, keeping the modular button explicit */
+    .nav-links { display: none; }
+    .about-hero-banner h1 { font-size: 2.8rem; }
+}
+
+@media(max-width: 767px) {
+    .section { padding: 80px 0; }
+    .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; gap: 24px; }
+    
+    /* Brand Scaling */
+    .header-logo { gap: 10px; }
+    .logo-img { height: 46px; } 
+    .logo-title { font-size: 1.6rem; } 
+    .logo-subtitle { font-size: 0.52rem; margin-top: 3px; }
+
+    /* 📲 Keep Action Container Visible & Centered Side-by-Side */
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px; /* Clean gap between Give Button and Hamburger */
+    }
+
+    /* Keep Give/Tithe Button Visible & Optimize for Mobile Navbar Proportions */
+    .btn-nav {
+        display: inline-flex !important; /* Force visibility override */
+        align-items: center;
+        justify-content: center;
+        padding: 8px 14px;  /* Sleeker padding to maximize navbar breathing room */
+        font-size: 0.8rem;   /* Crisp, legible typography profile */
+        white-space: nowrap; /* Prevents text from awkwardly wrapping to two lines */
+    }
+
+    .hamburger { 
+        display: block; 
+        margin: 0; /* Clear default margins to align true center with the button */
+    }
+    
+    /* Navigation Drawer Menu */
+    .nav-menu {
+        position: absolute;
+        top: 100%; left: 0; width: 100%;
+        background: #111;
+        flex-direction: column;
+        padding: 20px 0;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: var(--transition-smooth);
+        max-height: calc(100vh - 70px); 
+        overflow-y: auto; 
+    }
+    .nav-menu.show { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    
+    .nav-list { flex-direction: column; align-items: center; gap: 0; width: 100%; }
+    .nav-list a { display: block; width: 100%; text-align: center; padding: 14px 20px; }
+    
+    /* Only hide normal text nav-links, keeping the modular button explicit */
+    .nav-links { display: none; }
+    .about-hero-banner h1 { font-size: 2.8rem; }
+}
+
+/* ==========================================================================
+   COMPLETE RESPONSIVE HEADER ENGINE (Logo, Give Button & Hamburger Safety)
+   ========================================================================== */
+
+/* --- 1. GLOBAL LAYOUT SAFEGUARDS --- */
+.nav-container {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important; /* Absolutely prevents items from dropping to a new line */
+}
+
+.nav-actions {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    gap: clamp(8px, 1.8vw, 20px) !important; /* Dynamic space between button and hamburger */
+}
+
+
+/* --- 2. FLUID DESIGN TOKENS (Desktop down to Tablets) --- */
+/* Logo & Typography */
+.logo {
+    gap: clamp(8px, 1.5vw, 15px) !important;
+}
+.logo img {
+    height: clamp(48px, 5vw, 70px) !important;
+    width: auto !important;
+}
+.logo div span:first-of-type {
+    font-size: clamp(1.45rem, 2.3vw, 2.2rem) !important;
+}
+.logo div span:last-of-type {
+    font-size: clamp(0.5rem, 0.75vw, 0.7rem) !important;
+    margin-top: clamp(2px, 0.5vw, 6px) !important;
+}
+
+/* Give / Tithe Button */
+.btn-nav {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important; /* Prevents text fragmentation */
+    padding: clamp(8px, 1.1vw, 14px) clamp(12px, 2vw, 34px) !important; /* Fluid scaling padding */
+    font-size: clamp(0.72rem, 1vw, 0.85rem) !important; /* Fluid text size */
+    letter-spacing: clamp(0.5px, 0.15vw, 2px) !important;
+}
+
+/* Hamburger Target Protection */
+.hamburger {
+    color: var(--white) !important;
+    font-size: clamp(1.35rem, 2vw, 1.6rem) !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    padding: 6px !important; /* Ensures healthy touch target size */
+    z-index: 1001 !important;
+}
+
+
+/* --- 3. MOBILE SYSTEM BREAKPOINTS (768px and down) --- */
+@media (max-width: 768px) {
+    .logo {
+        gap: 10px !important;
+    }
+    .logo img {
+        height: 52px !important;
+    }
+    .logo div span:first-of-type {
+        font-size: 1.65rem !important;
+        letter-spacing: 1px !important;
+    }
+    .logo div span:last-of-type {
+        font-size: 0.55rem !important;
+        margin-top: 4px !important;
+    }
+    .btn-nav {
+        padding: 8px 16px !important;
+        font-size: 0.78rem !important;
+        letter-spacing: 1px !important;
+    }
+    .hamburger {
+        display: block !important; /* Guarantees layout rendering */
+        font-size: 1.45rem !important;
+    }
+}
+
+
+/* --- 4. MICRO-PHONE OPTIMIZATION (400px down to extreme 320px screens) --- */
+@media (max-width: 400px) {
+    .nav-actions {
+        gap: 6px !important;
+    }
+    .logo {
+        gap: 6px !important;
+    }
+    .logo img {
+        height: 42px !important;
+    }
+    .logo div span:first-of-type {
+        font-size: 1.35rem !important;
+        letter-spacing: 0.5px !important;
+    }
+    .logo div span:last-of-type {
+        font-size: 0.45rem !important;
+        margin-top: 1px !important;
+    }
+    /* Compact the Give Button cleanly to protect row real-estate */
+    .btn-nav {
+        padding: 6px 10px !important;
+        font-size: 0.68rem !important;
+        letter-spacing: 0.5px !important;
+    }
+    /* Lock the Hamburger size down to stay perfectly legible and accessible */
+    .hamburger {
+        display: block !important;
+        font-size: 1.35rem !important;
+        padding: 4px !important;
+    }
+}
+
+
+/* ==========================================================================
+   Banner Banner Banner Banner Banner Banner
+   ========================================================================== */
+
+/* This leaves the desktop image alone so JS doesn't break, */
+/* but forcefully forces the portrait image onto mobile screens */
+@media (max-width: 768px) {
+    .banner-2026 {
+        background-image: url('../images/2026Banner-Portrait.svg') !important;
+        background-size: cover !important;
+        background-position: center center !important;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE SLIDER CONTENT ENGINE (Typography, Buttons & Layout)
+   ========================================================================== */
+
+/* --- 1. DYNAMIC FLUID SCALING (Desktop down to Tablets) --- */
+
+/* Content Wrapper Constraints */
+.slide-content {
+    padding: 0 clamp(20px, 5vw, 50px); /* Keeps text safely away from screen edges */
+}
+
+/* Small Subheading Text ("Our Mission is...") */
+.slide-content .subheading {
+    display: block;
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    margin-bottom: clamp(8px, 1.2vw, 16px);
+    letter-spacing: 1.5px;
+}
+
+/* Main Heading ("To Know God & to Make Him Known") */
+.slide-content h1 {
+    font-size: clamp(1.85rem, 4.5vw, 3.8rem);
+    line-height: 1.15;
+    margin-bottom: clamp(12px, 2vw, 24px);
+    font-weight: 800;
+}
+
+/* Slide Description Paragraph */
+.slide-content .slide-text {
+    font-size: clamp(0.95rem, 1.3vw, 1.25rem);
+    max-width: 650px; /* Prevents text lines from getting unreadably long on wide screens */
+    line-height: 1.5;
+    margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+/* Button Group Context */
+.slide-content .btn-group {
+    display: flex;
+    gap: clamp(10px, 1.5vw, 20px);
+    flex-wrap: wrap; /* Gracefully breaks to next line if text is wide */
+}
+
+/* Slider Custom Call-to-Action Buttons */
+.slide-content .btn {
+    padding: clamp(10px, 1.2vw, 15px) clamp(20px, 2.5vw, 36px);
+    font-size: clamp(0.82rem, 1.1vw, 1rem);
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+}
+
+/* Slider Next/Prev Arrow Controls */
+.slider-btn {
+    width: clamp(38px, 5vw, 55px);
+    height: clamp(38px, 5vw, 55px);
+    font-size: clamp(0.95rem, 1.5vw, 1.3rem);
+}
+
+
+/* --- 2. TABLET & REGULAR MOBILE ADJUSTMENTS (768px and down) --- */
+@media (max-width: 768px) {
+    /* Remove the hardcoded inline <br> tags so text wraps naturally across lines */
+    .slide-content h1 br {
+        display: none; 
+    }
+    
+    .slide-content h1 {
+        letter-spacing: -0.5px;
+    }
+
+    .slider-btn {
+        opacity: 0.6; /* Softens arrow presence so they don't mask text on narrow screens */
+    }
+}
+
+
+/* --- 3. ULTRA-COMPACT SMARTPHONE ADJUSTMENTS (480px and down) --- */
+@media (max-width: 480px) {
+    .slide-content h1 {
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+    
+    .slide-content .slide-text {
+        font-size: 0.9rem;
+        line-height: 1.45;
+        margin-bottom: 24px;
+    }
+    
+    /* Long strings like "Join a Safari Group" won't fit side-by-side on minor screens. 
+       Stacking them vertically prevents layout breaking. */
+    .slide-content .btn-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+    
+    /* Make buttons fully touch-accessible and uniform width */
+    .slide-content .btn {
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
+        font-size: 0.85rem;
+    }
+    
+    /* Relocate slider arrows to extreme edges to free up center container space */
+    .slider-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
+    }
+    .slider-btn.prev { left: 5px; }
+    .slider-btn.next { right: 5px; }
+}
+
+   
+.accordion-item { border-bottom: 1px solid #eee; margin-bottom: 10px; }
+.accordion-header { width: 100%; padding: 20px; background: #f9f9f9; border: none; text-align: left; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: var(--transition-smooth); background: white; }
+.cta-card { background: var(--dark); padding: 80px 40px; color: white; text-align: center; }
+.counter-box { padding: 40px; background: var(--primary); color: white; text-align: center; }
+.counter-box h3 { font-size: 2.8rem; color: white; margin-bottom: 5px; }
+.counter-box p { font-size: 0.9rem; color: #eee; }
+
+.impact-section { background: linear-gradient(135deg, #1a1a1a 0%, #330508 100%); padding: 80px 0; }
+.impact-card { 
+    padding: 40px 20px; 
+    text-align: center; 
+    color: white; 
+    transition: transform 0.4s ease; 
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+.impact-card:last-child { border-right: none; }
+.impact-card h3 { font-size: 3.5rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+.impact-card p { font-size: 1rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 1.5px; }
+
+/* Interactive Hover Effect */
+.impact-card:hover { transform: translateY(-15px); }
+.impact-card:hover h3 { color: white; transition: 0.3s; }
+
+/* Logo Container Alignment */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between logo and text */
+    text-decoration: none;
+}
+
+.nav-logo {
+    height: 40px; /* Adjust height based on your header size */
+    width: auto;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+    font-size: 1.2rem;
+}
+
+.logo-text span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--primary);
+}
+
+/* ==========================================================================\r
+   UNIFORM SERMON ARCHIVE CONTAINER SYSTEM\r
+   ========================================================================== */
+
+/* Locked grid setup ensuring cards never wrap unevenly */
+#dynamic-sermon-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px; /* Crisp premium spacing */
+    align-items: stretch; /* Forces all card tracks to have identical structural height */
+}
+
+/* Hard dimensional caps for the cards */
+#dynamic-sermon-grid .sermon-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Spans the full height of the grid row track */
+    max-width: 100%;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-premium);
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+/* Scaled down thumbnail framing system */
+#dynamic-sermon-grid .sermon-thumbnail {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Enforces flawless, identical visual boundaries */
+    background-color: var(--dark);
+    overflow: hidden;
+}
+
+#dynamic-sermon-grid .sermon-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Crops incoming media elegantly into the 16:9 slot without distortion */
+    display: block;
+}
+
+/* Internal Layout-Locking Frame */
+#dynamic-sermon-grid .sermon-details {
+    padding: 16px; /* Slightly tighter premium padding to make cards smaller */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Pushes the action links down to sit flush across all cards */
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+/* Line-clipping system to prevent extra text from ballooning heights */
+#dynamic-sermon-grid .sermon-details h3 {
+    font-size: 1.05rem; /* Downscaled layout typography */
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 6px 0;
+    color: var(--dark);
+    
+    /* Cross-browser multi-line text truncation */
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2; /* Hard stop at exactly 2 lines of text */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.8em; /* Reserves identical room for short/long titles */
+}
+
+#dynamic-sermon-grid .sermon-meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+#dynamic-sermon-grid .speaker {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+#dynamic-sermon-grid .sermon-actions {
+    margin-top: auto; /* Locks the actions bar to the bottom absolute row boundary */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 12px;
+}
+
+#dynamic-sermon-grid .action-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Responsive down-scaling parameters */
+@media (max-width: 1024px) {
+    #dynamic-sermon-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 600px) {
+    #dynamic-sermon-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================\r
+   SERMON ARCHIVE ARCHITECTURE - MORE BUTTON EXTENSION\r
+   ========================================================================== */
+
+.sermon-more-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 48px; /* Balanced premium separation from the grid bottom lip */
+}
+
+/* Styled inline with your theme tokens using #c1121f */
+.sermon-more-container .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary);
+    background: transparent;
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+/* Premium smooth invert hover animation */
+.sermon-more-container .btn-secondary:hover {
+    color: var(--white);
+    background: var(--primary);
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-2px);
+}
+
+/* Micro-interaction layout rules for the icon arrow */
+.sermon-more-container .btn-secondary i {
+    font-size: 0.85rem;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.sermon-more-container .btn-secondary:hover i {
+    transform: translateX(4px); /* Shifts arrow right subtly upon card hover */
+}
+
+/* Mirror architectural styles over to the Catalog Grid variant explicitly */
+#catalog-sermon-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch; /* Forces strict row height containment symmetry */
+}
+
+#catalog-sermon-grid .sermon-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-premium);
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+#catalog-sermon-grid .sermon-thumbnail {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Guarantees matching image boundaries */
+    background-color: var(--dark);
+    overflow: hidden;
+}
+
+#catalog-sermon-grid .sermon-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Crops unusual thumbnails safely without compression distortion */
+}
+
+#catalog-sermon-grid .sermon-details {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+    justify-content: space-between;
+}
+
+#catalog-sermon-grid .sermon-details h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 6px 0;
+    
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Truncates multi-line content consistently at 2 lines */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.8em; /* Holds matching whitespace footprints */
+}
+
+/* Catalog Breakpoints System */
+@media (max-width: 1024px) {
+    #catalog-sermon-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+    #catalog-sermon-grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================\r
+   CRITICAL FIX: MINISTRY ICON VISIBILITY & SPACING LOCK\r
+   ========================================================================== */
+
+.ministry-icon-badge {
+    position: absolute;
+    top: 220px; /* Aligns to the bottom boundary of the 220px image frame sibling */
+    margin-top: -20px; /* Offsets icon by 20px up for perfect overlap, guaranteed unclipped */
+    right: 15px; /* Decreased offset from right for enhanced horizontal safety on all grids */
+    width: 50px;
+    height: 50px;
+    background: var(--primary); /* red */
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 20px rgba(193, 18, 31, 0.3);
+    z-index: 10; /* Increased z-index for guaranteed draw priority */
+    transition: var(--transition-smooth);
+}
+
+/* Ensure the content body has a clear top buffer now that the unclipped icon is overlapping it */
+.ministry-content-body {
+    padding: 35px 25px 25px; /* Premium design tokens */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+    margin-top: 15px; /* Strategic architectural buffer ensures first heading title remains perfectly legible */
+}
+
+/* ==========================================================================
+   10. SERMON APP EXTENSIONS (SEARCH, FILTERS, PAGINATION, SKELETONS)
+   ========================================================================== */
+
+/* Featured Sermon Card */
+.featured-sermon-card {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    background: var(--white);
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+.featured-video-frame {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: var(--dark);
+    overflow: hidden;
+    cursor: pointer;
+}
+.featured-video-frame img {
+    width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);
+}
+.featured-video-frame:hover img { transform: scale(1.05); opacity: 0.8; }
+.featured-info { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+.featured-info h3 { font-size: 2rem; margin-bottom: 15px; color: var(--dark); }
+.featured-info p { color: var(--text-muted); font-size: 1rem; margin-bottom: 25px; line-height: 1.6; }
+
+/* Controls Architecture */
+.controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.search-container {
+    position: relative;
+    width: 100%;
+}
+.search-container input {
+    width: 100%;
+    padding: 20px 20px 20px 55px;
+    font-size: 1.1rem;
+    font-family: var(--font-sans);
+    border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    outline: none;
+    transition: var(--transition-smooth);
+    background: var(--light);
+}
+.search-container input:focus { border-color: var(--primary); background: var(--white); box-shadow: 0 10px 20px rgba(193,18,31,0.05); }
+.search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+.search-container input:focus + .search-icon { color: var(--primary); }
+
+.utilities-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+.category-scroll-wrapper {
+    display: flex; 
+    gap: 10px; 
+    overflow-x: auto; 
+    overflow-y: hidden;
+    padding: 10px 5px 15px 5px; 
+    flex-grow: 1;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--primary) var(--light);
+    -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+    scroll-behavior: smooth;
+    position: relative;
+}
+
+.category-scroll-wrapper::-webkit-scrollbar { 
+    height: 6px;
+} 
+
+.category-scroll-wrapper::-webkit-scrollbar-track {
+    background: var(--light);
+    border-radius: 3px;
+}
+
+.category-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 3px;
+}
+
+.category-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+.category-btn {
+    border-color: rgba(0,0,0,0.1); color: var(--dark); border-radius: 30px; padding: 10px 24px; white-space: nowrap;
+}
+.category-btn:hover, .category-btn.active {
+    background: var(--primary); border-color: var(--primary); color: var(--white); transform: translateY(0);
+}
+
+.premium-select {
+    padding: 12px 20px;
+    font-family: var(--font-sans); font-weight: 600; color: var(--dark);
+    border: 2px solid rgba(0,0,0,0.08); border-radius: 8px;
+    background: var(--white); cursor: pointer; outline: none; transition: var(--transition-smooth);
+}
+.premium-select:focus { border-color: var(--primary); }
+
+/* Numbered Pagination */
+.sermon-pagination {
+    display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;
+    margin-top: 60px; padding-top: 30px; border-top: 1px solid rgba(0,0,0,0.05);
+}
+.page-btn {
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    background: var(--white); border: 1px solid rgba(0,0,0,0.1); border-radius: 4px;
+    font-weight: 600; color: var(--dark); cursor: pointer; transition: var(--transition-smooth);
+    text-decoration: none;
+}
+.page-btn.wide { width: auto; padding: 0 15px; }
+.page-btn:hover:not(:disabled) { background: var(--light); border-color: var(--dark); }
+.page-btn.active { background: var(--primary); border-color: var(--primary); color: var(--white); box-shadow: 0 4px 10px rgba(193,18,31,0.2); }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Skeleton Loading Architecture */
+.skeleton-box {
+    background: #e2e2e2;
+    position: relative;
+    overflow: hidden;
+}
+.skeleton-box::after {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, rgba(255,255,255, 0) 0, rgba(255,255,255, 0.4) 20%, rgba(255,255,255, 0.6) 60%, rgba(255,255,255, 0));
+    animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+.skeleton-card { height: 320px; display: flex; flex-direction: column; border-radius: 8px; box-shadow: var(--shadow-premium); background: var(--white); }
+.skeleton-thumb { height: 180px; width: 100%; border-radius: 8px 8px 0 0; }
+.skeleton-body { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; }
+.skeleton-line { height: 14px; border-radius: 4px; }
+.skeleton-line.title { width: 90%; height: 20px; }
+.skeleton-line.meta { width: 40%; }
+.skeleton-line.action { width: 30%; margin-top: auto; }
+
+/* YouTube Iframe Replacement */
+.yt-iframe-container {
+    position: relative;
+}
+.yt-iframe-container iframe {
+    width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; z-index: 10;
+    animation: fadeIn 0.5s ease-in;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Error Card */
+.error-card {
+    grid-column: 1 / -1; padding: 60px 20px; text-align: center;
+    background: var(--light); border: 2px dashed rgba(193,18,31,0.3); border-radius: 8px;
+}
+.error-card i { font-size: 3rem; color: var(--primary); margin-bottom: 20px; }
+.error-card h3 { color: var(--dark); margin-bottom: 10px; }
+
+/* Responsive adjustments */
+@media(max-width: 991px) {
+    .featured-sermon-card { grid-template-columns: 1fr; }
+}
+
+
+/* ==========================================================================
+   11. STRUCTURAL SYMMETRICAL CALENDAR
+   ========================================================================== */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.calendar-current-title {
+    font-size: 1.6rem !important;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.compact-nav-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% !important;
+    border: 1px solid rgba(0,0,0,0.12) !important;
+    color: var(--dark) !important;
+    background: var(--white);
+    transition: var(--transition-smooth);
+}
+.compact-nav-btn:hover {
+    background: var(--dark) !important;
+    color: var(--white) !important;
+    border-color: var(--dark) !important;
+}
+
+/* Symmetrical Grid Containers */
+.calendar-wrapper {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: var(--shadow-premium);
+}
+
+/* Day headers and grid cells share the exact same template grid map */
+.calendar-days-header, 
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-days-header {
+    background: var(--dark);
+    color: var(--white);
+    text-align: center;
+    padding: 14px 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.calendar-grid {
+    background: rgba(0, 0, 0, 0.08); /* Grid line color fill */
+    gap: 1px; /* Creates clean 1px borders between cells */
+}
+
+/* Symmetrical Grid Cells */
+.calendar-day {
+    background: var(--white);
+    padding: 10px;
+    height: 115px; /* Fixed height locks desktop rows into absolute alignment */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background 0.2s ease;
+}
+.calendar-day:hover {
+    background: #fafafa;
+}
+
+/* Empty placeholder cells MUST stay visible to keep date positions aligned */
+.calendar-day.empty-cell {
+    background: #fdfdfd;
+    cursor: default;
+}
+
+/* Symmetrical Day Indicator Badges */
+.day-number {
+    font-weight: 700;
+    color: var(--dark);
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    margin-bottom: 6px;
+    align-self: flex-start;
+}
+.day-number.today {
+    background: var(--primary);
+    color: var(--white);
+    box-shadow: 0 3px 8px rgba(193, 18, 31, 0.25);
+}
+
+/* High Density Inside-Cell Event Strings */
+.calendar-event {
+    background: rgba(193, 18, 31, 0.04);
+    border-left: 2px solid var(--primary);
+    padding: 3px 6px;
+    margin-bottom: 3px;
+    border-radius: 0 4px 4px 0;
+}
+.event-time {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 1px;
+}
+.calendar-event h4 {
+    font-size: 0.72rem;
+    color: var(--dark);
+    margin: 0;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Gracefully clip text that overflows cell space */
+}
+.calendar-event p {
+    display: none; /* Hide detailed paragraphs in core grid view to save structural balance */
+}
+
+/* Symmetrical Mobile Indicator Dots */
+.event-dots-container {
+    display: none; 
+    justify-content: center;
+    gap: 4px;
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+}
+.event-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--primary);
+    border-radius: 50%;
+}
+.event-dot.special { background: #3a86ff; }
+
+/* Global Highlight State */
+.calendar-day.selected-day {
+    background: rgba(193, 18, 31, 0.02);
+}
+.calendar-day.selected-day .day-number:not(.today) {
+    background: var(--dark);
+    color: var(--white);
+}
+
+/* Symmetrical Event Details Panel Below */
+.day-details-drawer {
+    margin-top: 25px;
+    padding: 24px;
+    background: var(--light);
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+}
+.drawer-date-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.drawer-date-title::before {
+    content: '';
+    width: 4px;
+    height: 16px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+.drawer-event-item {
+    background: var(--white);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+    border-left: 3px solid var(--primary);
+}
+.drawer-event-item:last-child { margin-bottom: 0; }
+.drawer-event-meta {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+.drawer-event-item h3 {
+    font-size: 0.95rem;
+    color: var(--dark);
+    margin-bottom: 6px;
+}
+.drawer-event-item p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   FLAWLESS MOBILE RESPONSIVE ENGINE
+   ========================================================================== */
+@media(max-width: 768px) {
+    .calendar-day {
+        height: 52px; /* Uniform grid squares on mobile */
+        align-items: center;
+        justify-content: center;
+        padding: 2px;
+    }
+    .day-number {
+        margin-bottom: 0;
+        align-self: center;
+        font-size: 0.8rem;
+        width: 24px;
+        height: 24px;
+    }
+    .calendar-event {
+        display: none !important; /* Safely hide text block to prevent cell distortion */
+    }
+    .event-dots-container {
+        display: flex; /* Rely entirely on modern clean dot targets */
+    }
+}
+
+/* Map Section Styles */
+.map-wrapper { width: 100%; height: 450px; background-color: #eee; }
+.map-wrapper iframe { width: 100%; height: 100%; border: none; display: block; }
+
+
+
+/* ==========================================================================
+   COOKIE CONSENT BANNER
+   ========================================================================== */
+.cookie-banner {
+    position: fixed;
+    bottom: -150%; /* Hidden off-screen initially */
+    left: 0;
+    width: 100%;
+    background-color: var(--dark);
+    color: var(--white);
+    padding: 20px 0;
+    z-index: 9999;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
+    transition: bottom 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cookie-banner.show-banner {
+    bottom: 0; /* Slides up smoothly */
+}
+
+.cookie-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.cookie-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cookie-icon {
+    font-size: 2rem;
+    color: var(--primary);
+}
+
+.cookie-text h4 {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--white);
+}
+
+.cookie-text p {
+    font-size: 0.85rem;
+    color: #aaaaaa;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.cookie-actions {
+    display: flex;
+    gap: 15px;
+    flex-shrink: 0; /* Prevents buttons from shrinking on smaller screens */
+}
+
+.cookie-btn-outline {
+    background: transparent;
+    border: 1px solid #555;
+    color: var(--white);
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.cookie-btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--white);
+}
+
+/* Responsive Adjustments for Tablets and Mobile */
+@media (max-width: 768px) {
+    .cookie-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    .cookie-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 480px) {
+    .cookie-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .cookie-actions button {
+        width: 100%;
+    }
+}
+
+/* ==========================================================================
+   Announements
+   ========================================================================== */
+
+/* Editorial Card Design */
+.announcement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.announcement-card {
+    padding: 30px;
+    border-left: 3px solid var(--primary); /* Signature red accent */
+    background: #f9f9f9;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.announcement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.date-tag {
+    font-size: 0.75rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--dark);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid var(--primary);
+}
+
+/* Layout */
+.announcement-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Text takes more space than posters */
+    gap: 60px;
+    padding: 60px 0;
+}
+
+/* Video Spotlight */
+.video-spotlight {
+    max-width: 900px;
+    margin: 30px auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* Notice Cards (Text) */
+.notice-card {
+    border-left: 4px solid var(--primary);
+    padding: 20px;
+    background: #fdfdfd;
+    margin-bottom: 30px;
+}
+
+.notice-card .date {
+    color: var(--primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+/* Poster Grid */
+.poster-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.poster-img {
+    width: 100%;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.poster-img:hover {
+    transform: scale(1.03);
+}
+
+@media (max-width: 768px) {
+    .announcement-layout { grid-template-columns: 1fr; }
+}
+
+/* Cinematic Hero Styling */
+.announcement-hero {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../images/bible.svg');
+    background-size: cover;
+    background-position: center;
+    padding: 120px 0 80px;
+    text-align: center;
+    color: white;
+}
+
+.hero-title { font-size: 3.5rem; margin: 15px 0; color: #fff; }
+.hero-desc { max-width: 600px; margin: 0 auto; opacity: 0.9; }
+
+/* Page Layout - The Grid Fix */
+.page-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px; /* Video/Text takes 1fr, Posters takes fixed width */
+    gap: 60px;
+    padding: 60px 0;
+}
+
+.section-heading {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary);
+    display: inline-block;
+}
+
+/* Depth for Cards */
+.notice-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+/* Poster Styling */
+.poster-img {
+    width: 100%;
+    border-radius: 12px;
+    transition: transform 0.4s ease;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.poster-link:hover .poster-img {
+    transform: scale(1.02);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .page-layout { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermons | CITAM Valley Road</title>
+
+    <!-- Add your Favicon here -->
+    <link rel="icon" type="image/svg+xml" href="images/CITAMLOGO.svg">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Artistic Cinematic Preloader -->
+    <div id="citam-preloader">
+        <div class="loader-artistic-canvas">
+            <!-- Counter-rotating ethereal rings -->
+            <div class="loader-rings">
+                <div class="ring ring-outer"></div>
+                <div class="ring ring-inner"></div>
+            </div>
+            
+            <!-- Pulsing Center Logo -->
+            <div class="loader-logo-wrapper">
+                <img src="images/CITAMLOGO.svg" alt="CITAM Logo" class="loader-logo-img">
+            </div>
+        </div>
+        
+        <!-- Blur-reveal Typography -->
+        <div class="loader-text-brand">
+            <span class="loader-title">CITAM</span>
+            <span class="loader-subtitle">Valley Road</span>
+        </div>
+    </div>
+
+    <!-- Top Contact Utility Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-flex">
+            <div class="top-info">
+                <span><i class="fas fa-phone-alt"></i> +254 709 861 150</span>
+                <span><i class="fas fa-envelope"></i> valleyroad@citam.org</span>
+                <span><i class="fas fa-map-marker-alt"></i> 28 Valley Rd, Nairobi, Kenya</span>
+            </div>
+            <div class="top-social">
+                <a href="https://www.facebook.com/citamvrdke" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://x.com/CitamVrdKE" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/citamvrdke/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@CITAMValleyRoadNPC" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transparent Sticky Header Navigation -->
+    <header class="header" id="header">
+        <div class="container nav-container">
+            
+            <a href="index.html" class="logo" aria-label="CITAM Valley Road Home" style="display: flex; align-items: center; gap: 15px; text-decoration: none;">
+                <img src="images/CITAMLOGO.svg" alt="CITAM Logo" style="height: 70px; width: auto; display: block;">
+                
+                <div style="display: flex; flex-direction: column; justify-content: center;">
+                    <span style="font-size: 2.2rem; font-weight: 800; color: #ffffff; line-height: 0.85; letter-spacing: 2px;">
+                        CITAM
+                    </span>
+                    <span style="font-size: 0.7rem; font-weight: 400; color: #ffffff; line-height: 1; margin-top: 6px; text-transform: uppercase; width: 100%; text-align-last: justify;">
+                        Valley Road
+                    </span>
+                </div>
+            </a>
+
+            <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="ministries.html">Ministries</a></li>
+                    <li><a href="sermons.html">Sermons</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="give.html" class="btn btn-primary btn-nav">Give / Tithe</a>
+                <button class="hamburger" id="hamburger" aria-expanded="false" aria-label="Toggle navigation menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <header class="about-hero-banner" style="
+        padding-top: 180px !important; 
+        padding-bottom: 100px !important;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/bible.svg') !important; 
+        background-size: cover !important; 
+        background-position: center !important; 
+        position: relative !important;
+        z-index: 1 !important;">
+        
+        <div class="container text-center" style="position: relative !important; z-index: 10 !important;">
+            <span class="hero-pre-tag animate-on-scroll slide-up" style="color: #f1ee07 !important; display: block !important; margin-bottom: 10px !important; opacity: 1 !important; visibility: visible !important;">
+                Updates
+            </span>
+            
+            <h1 class="animate-on-scroll slide-up delay-1" style="color: #ffffff !important; margin-bottom: 20px !important; opacity: 1 !important; visibility: visible !important; position: relative !important;">
+                Weekly Announcements
+            </h1>
+            
+            <p class="hero-subtext animate-on-scroll slide-up delay-2" style="color: #ffffff !important; max-width: 700px !important; margin: 0 auto !important; opacity: 1 !important; visibility: visible !important;">
+                Explore a collection of messages designed to inspire, challenge, and equip you for a life of faith and purpose.
+            </p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero: Video Announcement -->
+        <section class="announcement-hero">
+            <div class="container">
+                <span class="hero-pre-tag">This Week's Update</span>
+                <h1 class="section-title">Weekly Announcements</h1>
+                
+                <div class="video-spotlight" id="video-spotlight">
+                    <!-- This container mimics your sermons.js architecture -->
+                    <div class="yt-click-to-play" data-video-id="VIDE">
+                         <img src="images/placeholder.jpg" alt="Video Thumbnail">
+                         <div class="play-overlay"><i class="fas fa-play"></i></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content: Text + Posters -->
+        <section class="announcements-content">
+            <div class="container announcement-layout">
+                <!-- Text Announcements -->
+                <div class="text-updates">
+                    <h2>Important Notices</h2>
+                    <article class="notice-card">
+                        <span class="date">June 25, 2026</span>
+                        <h3>Mid-Week Prayer Meeting</h3>
+                        <p>We are shifting our prayer meeting to the main sanctuary this Tuesday at 6:00 PM...</p>
+                    </article>
+                    <!-- Add more notice-card items here -->
+                </div>
+
+                <!-- Poster Announcements -->
+                <div class="poster-gallery">
+                    <h2>Upcoming Events</h2>
+                    <div class="poster-grid">
+                        <a href="images/YP.svg" target="_blank">
+                            <img src="images/YP.svg" alt="Event Poster" class="poster-img">
+                        </a>
+                        <!-- Add more poster images here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    
+
+    <!-- Footer System -->
+    <footer class="footer">
+        <div class="container grid-4">
+            <div class="footer-col">
+                <h3>CITAM<span>Valley Road</span></h3>
+                <p>An assembly under Christ Is The Answer Ministries, established to know God and make Him known through practical discipleship structures.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/citamvrdke" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/CitamVrdKE" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/citamvrdke/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@CITAMValleyRoadNPC" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>  
+            <div class="footer-col">    
+                <h4>Quick References</h4>
+                <ul>
+                    <li><a href="about.html">About Leadership</a></li>
+                    <li><a href="ministries.html">Our Ministries</a></li>
+                    <li><a href="sermons.html">Sermon Catalogue</a></li>
+                    <li><a href="contact.html">Prayer Requests</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Weekly Services</h4>
+                <ul>
+                    <li>1st Service: Sun 8:30 AM</li>
+                    <li>2nd Service: Sun 11:30 AM</li>
+                    <li>Youth Assembly: Sun 8:30 AM</li>
+                    <li>Tuesday Prayer: 6:00 PM</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Central Office</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 28 Valley Rd, Nairobi, Kenya</li>
+                    <li><i class="fas fa-phone"></i> +254 709 861 150</li>
+                    <li><i class="fas fa-envelope"></i> valleyroad@citam.org</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 CITAM Valley Road. Built for high-performance scale. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner" class="cookie-banner">
+        <div class="container cookie-container">
+            <div class="cookie-content">
+                <div class="cookie-icon"><i class="fas fa-cookie-bite"></i></div>
+                <div class="cookie-text">
+                    <h4>We value your privacy</h4>
+                    <p>We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.</p>
+                </div>
+            </div>
+            <div class="cookie-actions">
+                <button id="decline-cookies" class="btn cookie-btn-outline">Decline</button>
+                <button id="accept-cookies" class="btn btn-primary">Accept All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core JavaScript Logic Added Directly -->
+    
+    <script src="js/sermons.js" defer></script>
+
+    <!-- Main JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Sticky Header Functionality
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // 2. Mobile Menu Toggle
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', () => {
+                    navMenu.classList.toggle('show');
+                    const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+                    hamburger.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+
+            // 3. Scroll Reveal Animations via Intersection Observer
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active'); // This triggers the visibility
+                        observer.unobserve(entry.target); // Run animation only once
+                    }
+                });
+            }, observerOptions);
+
+            // Target all animated elements on the page
+            const animatableElements = document.querySelectorAll('.animate-on-scroll');
+            animatableElements.forEach(el => revealObserver.observe(el));
+        });
+
+        // Artistic Preloader Logic
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('citam-preloader');
+            
+            if (preloader) {
+                // Wait an extra 800ms so the text blur-reveal finishes nicely
+                setTimeout(() => {
+                    preloader.classList.add('preloader-hidden');
+                    
+                    // Remove from DOM strictly after the 1-second CSS fade completes
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                    }, 1000); 
+                }, 800); 
+            }
+        });
+
+        // Cookie Consent Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const cookieBanner = document.getElementById('cookie-consent-banner');
+            const acceptBtn = document.getElementById('accept-cookies');
+            const declineBtn = document.getElementById('decline-cookies');
+
+            // Check if the user has already made a choice
+            const cookieConsent = localStorage.getItem('citam_cookie_consent');
+
+            if (!cookieConsent && cookieBanner) {
+                // Delay showing the banner slightly so it doesn't fight with the preloader
+                setTimeout(() => {
+                    cookieBanner.classList.add('show-banner');
+                }, 2000); // Shows 2 seconds after page load
+            }
+
+            // Handle Accept
+            if (acceptBtn) {
+                acceptBtn.addEventListener('click', () => {
+                    localStorage.setItem('citam_cookie_consent', 'accepted');
+                    cookieBanner.classList.remove('show-banner');
+                });
+            }
+
+            // Handle Decline
+            if (declineBtn) {
+                declineBtn.addEventListener('click', () => {
+                    localStorage.setItem('citam_cookie_consent', 'declined');
+                    cookieBanner.classList.remove('show-banner');
+                });
+            }
+        });
+    </script>
+
+   
+
+</body>
+</html>
