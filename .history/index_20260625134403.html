@@ -626,39 +626,6 @@
             }
         });
 
-        // Cookie Consent Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            const cookieBanner = document.getElementById('cookie-consent-banner');
-            const acceptBtn = document.getElementById('accept-cookies');
-            const declineBtn = document.getElementById('decline-cookies');
-
-            // Check if the user has already made a choice
-            const cookieConsent = localStorage.getItem('citam_cookie_consent');
-
-            if (!cookieConsent && cookieBanner) {
-                // Delay showing the banner slightly so it doesn't fight with the preloader
-                setTimeout(() => {
-                    cookieBanner.classList.add('show-banner');
-                }, 2000); // Shows 2 seconds after page load
-            }
-
-            // Handle Accept
-            if (acceptBtn) {
-                acceptBtn.addEventListener('click', () => {
-                    localStorage.setItem('citam_cookie_consent', 'accepted');
-                    cookieBanner.classList.remove('show-banner');
-                });
-            }
-
-            // Handle Decline
-            if (declineBtn) {
-                declineBtn.addEventListener('click', () => {
-                    localStorage.setItem('citam_cookie_consent', 'declined');
-                    cookieBanner.classList.remove('show-banner');
-                });
-            }
-        });
-
         
     </script>
     <!-- Announcement JavaScript Logic -->
