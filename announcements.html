@@ -290,9 +290,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
+            // Your published Google Sheets CSV URL
             const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0J3w-dcCeV-M23goOP2w39xdTw-zMygevoFtVM3zPhhe7huQ0d8OUvSlsRV3eoZjhEOnZq_W5Zg9/pub?gid=0&single=true&output=csv';
 
-            // Helper function to extract Google Drive file IDs reliably
+            // Helper function to extract Google Drive file ID safely
             function getGoogleDriveId(url) {
                 if (!url) return null;
                 url = url.trim();
@@ -321,7 +322,7 @@
                 const noticesContainer = document.getElementById('dynamic-notices-container');
                 const postersContainer = document.getElementById('dynamic-posters-container');
 
-                // Clear layout workspaces
+                // Clear layout workspaces before injection
                 videoContainer.innerHTML = '';
                 noticesContainer.innerHTML = '';
                 postersContainer.innerHTML = '';
@@ -333,10 +334,10 @@
                     const rawUrl = row.MediaURL ? row.MediaURL.trim() : '';
                     const driveId = getGoogleDriveId(rawUrl);
 
-                    // A. Setup Spotlight Video component
+                    // 1. Render Spotlight Video Component
                     if (category === 'video' && rawUrl) {
                         if (driveId) {
-                            // If it's a Google Drive link, embed it via an iframe player to bypass streaming blocks
+                            // Uses Google Drive inline embedded preview player to completely bypass raw stream throttling
                             videoContainer.innerHTML = `
                                 <div class="video-spotlight-box" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
                                     <iframe src="https://drive.google.com/file/d/${driveId}/preview" 
@@ -349,7 +350,7 @@
                                 </div>
                             `;
                         } else {
-                            // Standard fallback fallback for non-drive direct video paths (.mp4)
+                            // Standard fallback for direct mp4 server urls
                             videoContainer.innerHTML = `
                                 <div class="video-spotlight-box">
                                     <video controls width="100%" height="100%" preload="metadata">
@@ -361,7 +362,7 @@
                         }
                     }
 
-                    // B. Setup Written Notices text system
+                    // 2. Render Written Notices Text System
                     if (category === 'notice') {
                         activeNoticeCount++;
                         const noticeHTML = `
@@ -374,20 +375,21 @@
                         noticesContainer.insertAdjacentHTML('beforeend', noticeHTML);
                     }
 
-                    // C. Setup Graphical Event Posters sidebar
+                    // 3. Render Graphical Event Posters Sidebar
                     if (category === 'poster' && rawUrl) {
                         let finalImgUrl = rawUrl;
+                        
                         if (driveId) {
-                            // Format to a clean direct-render URL for image tags
-                            finalImgUrl = `https://drive.google.com/uc?export=view&id=${driveId}`;
+                            // Uses Google's cookie-less thumbnail delivery network with custom size constraints
+                            finalImgUrl = `https://drive.google.com/thumbnail?id=${driveId}&sz=w1200`;
                         } else if (rawUrl.includes('dropbox.com')) {
                             finalImgUrl = rawUrl.replace(/\?dl=0$/, '?raw=1').replace(/&dl=0$/, '&raw=1');
                         }
 
                         const posterHTML = `
-                            <div class="poster-gallery" style="margin-bottom: 20px;">
+                            <div class="poster-gallery" style="margin-bottom: 25px;">
                                 <a href="${finalImgUrl}" target="_blank" class="poster-link">
-                                    <img src="${finalImgUrl}" alt="${row.Title || 'CITAM Event Poster'}" class="poster-img" style="width: 100%; border-radius: 8px; display: block;">
+                                    <img src="${finalImgUrl}" alt="${row.Title || 'CITAM Event Poster'}" class="poster-img" style="width: 100%; border-radius: 8px; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
                                 </a>
                             </div>
                         `;
