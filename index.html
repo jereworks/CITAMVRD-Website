@@ -608,6 +608,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const featuredContainer = document.getElementById('featured-events');
+            
+            // Your Google Sheet URL
             const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRron9LFqj98Z3u23FRWiCqtYXktZCvUFTcFfds4pfDvWRilN-G1e_nQtAOlPn2HHnK5A71TzDhe1Vr/pub?gid=0&single=true&output=csv';
 
             function formatDateString(dateObj) {
@@ -628,6 +630,8 @@
                 try {
                     const response = await fetch(SHEET_CSV_URL);
                     const csvText = await response.text();
+                    
+                    // Parse the CSV data
                     const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
                     
                     const cleanedRows = parsed.data.map(row => {
@@ -643,7 +647,7 @@
                     const rows = cleanedRows
                         .map(r => {
                             let rawImg = r['image_url'] || '';
-                            let cleanImg = 'images/events.svg';
+                            let cleanImg = 'images/events.svg'; // Fallback image
                             if (rawImg.includes('drive.google.com')) {
                                 const match = rawImg.match(/\/d\/([a-zA-Z0-9_-]+)/);
                                 if (match && match[1]) {
@@ -673,7 +677,7 @@
                     const sorted = [...rows].sort((a, b) => a.date.localeCompare(b.date));
                     const marked = sorted.filter(r => r.featured);
                     
-                    // Slice to 3 items to keep the homepage layout neat
+                    // Display up to 3 featured events on the homepage
                     renderFeaturedEvents((marked.length ? marked : sorted).slice(0, 3));
 
                 } catch (err) {
@@ -693,8 +697,13 @@
                     const day = d.getDate();
                     const month = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
                     
-                    // Added a delay class based on the index to recreate your cinematic reveal effect
                     const delayClass = index === 0 ? 'delay-1' : (index === 2 ? 'delay-2' : '');
+                    
+                    // Strict Button Logic: Only draw the button if form_url has actual text/link
+                    const linkUrl = ev.form_url ? ev.form_url.trim() : '';
+                    const buttonHtml = linkUrl !== '' 
+                        ? `<a href="${linkUrl}" class="btn btn-primary btn-full mt-2" target="_blank">${ev.button_text}</a>` 
+                        : '';
 
                     return `
                         <article class="event-card animate-on-scroll reveal-up ${delayClass}">
@@ -712,14 +721,15 @@
                                     <span><i class="far fa-clock"></i> ${ev.time}</span>
                                     <span><i class="fas fa-map-marker-alt"></i> ${ev.location}</span>
                                 </p>
-                                ${ev.form_url ? `<a href="${ev.form_url}" class="btn btn-primary btn-full mt-2">${ev.button_text}</a>` : ''}
+                                ${buttonHtml}
                             </div>
                         </article>`;
                 }).join('');
 
-                // Re-trigger scroll animations for dynamically injected content
+                // Trigger animations for the newly injected event cards
                 document.querySelectorAll('#featured-events .animate-on-scroll').forEach(el => {
-                    el.classList.add('active');
+                    // Small timeout to allow DOM to register the elements
+                    setTimeout(() => { el.classList.add('active'); }, 100);
                 });
             }
 
