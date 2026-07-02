@@ -705,30 +705,30 @@
                     const delayClass = index === 0 ? 'delay-1' : (index === 2 ? 'delay-2' : '');
                     
                     // Resilient Button Fallback Integration
-                    const linkUrl = ev.form_url ? ev.form_url.trim() : 'events.html';
-                    const targetAttr = ev.form_url ? 'target="_blank" rel="noopener noreferrer"' : '';
-                    const buttonLabel = ev.button_text ? ev.button_text.trim() : (ev.form_url ? 'Register Now' : 'Learn More');
-                    
-                    const buttonHtml = `<a href="${linkUrl}" class="btn btn-primary btn-full mt-2" ${targetAttr}>${buttonLabel}</a>`;
+                    let buttonHtml = '';
+                    if (ev.form_url && ev.form_url.trim()) {
+                        const linkUrl = ev.form_url.trim();
+                        const targetAttr = 'target="_blank" rel="noopener noreferrer"';
+                        const buttonLabel = ev.button_text ? ev.button_text.trim() : 'Register Now';
+                        buttonHtml = `<a href="${linkUrl}" class="btn btn-primary btn-full mt-2" ${targetAttr}>${buttonLabel}</a>`;
+                    }
 
                     return `
-                        <article class="event-card animate-on-scroll reveal-up ${delayClass}" style="display: flex; flex-direction: column; height: 100%; background: var(--white); box-shadow: var(--shadow-premium); overflow: hidden;">
-                            <div class="event-img-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 10; background-color: #e5e5e5; overflow: hidden;">
-                                <img src="${ev.image}" alt="${ev.title}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+                        <article class="event-card animate-on-scroll reveal-up ${delayClass}">
+                            <div class="event-img-wrap">
+                                <img src="${ev.image}" alt="${ev.title}" class="img-fluid" loading="lazy">
                                 <div class="event-date-badge">
                                     <span class="day">${day}</span>
                                     <span class="month">${month}</span>
                                 </div>
                             </div>
-                            <div class="event-body" style="padding: 25px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
-                                <div>
-                                    <span class="event-tag-label"><i class="fas fa-fire"></i> ${ev.tag}</span>
-                                    <h3 style="margin-bottom: 12px; font-size: 1.3rem; line-height: 1.3;">${ev.title}</h3>
-                                    <p class="event-meta-info" style="margin-bottom: 20px;">
-                                        <span><i class="far fa-clock"></i> ${ev.time}</span>
-                                        <span><i class="fas fa-map-marker-alt"></i> ${ev.location}</span>
-                                    </p>
-                                </div>
+                            <div class="event-body">
+                                <span class="event-tag-label"><i class="fas fa-fire"></i> ${ev.tag}</span>
+                                <h3>${ev.title}</h3>
+                                <p class="event-meta-info">
+                                    <span><i class="far fa-clock"></i> ${ev.time}</span>
+                                    <span><i class="fas fa-map-marker-alt"></i> ${ev.location}</span>
+                                </p>
                                 ${buttonHtml}
                             </div>
                         </article>`;
