@@ -334,34 +334,23 @@
                     const rawUrl = row.MediaURL ? row.MediaURL.trim() : '';
                     const driveId = getGoogleDriveId(rawUrl);
 
-                    // 1. Render Responsive Spotlight Video Component (Locked Inside Frame)
+                    // 1. Render Spotlight Video Component
                     if (category === 'video' && rawUrl) {
+                        // Using native HTML5 video player to prevent redirects and enforce responsive framing
+                        let videoSource = rawUrl;
                         if (driveId) {
-                            // Uses aspect-ratio framing for 100% responsiveness 
-                            // sandbox blocks the top-right pop-out button from redirecting or opening new tabs
-                            videoContainer.innerHTML = `
-                                <div class="video-spotlight-box" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); background-color: #000000;">
-                                    <iframe src="https://drive.google.com/file/d/${driveId}/preview" 
-                                            width="100%" 
-                                            height="100%" 
-                                            style="position: absolute; top: 0; left: 0; border: none; width: 100%; height: 100%;" 
-                                            allow="autoplay" 
-                                            sandbox="allow-scripts allow-same-origin allow-forms"
-                                            allowfullscreen>
-                                    </iframe>
-                                </div>
-                            `;
-                        } else {
-                            // Standard fluid block fallback for direct mp4 server urls
-                            videoContainer.innerHTML = `
-                                <div class="video-spotlight-box" style="margin-bottom: 30px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); background-color: #000000;">
-                                    <video controls width="100%" style="display: block; width: 100%; height: auto; max-height: 500px; object-fit: contain;" preload="metadata">
-                                        <source src="${rawUrl}">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                            `;
+                            // Using the download endpoint forces Drive to stream the raw mp4, stripping the Google UI
+                            videoSource = `https://drive.google.com/uc?export=download&id=${driveId}`;
                         }
+                        
+                        videoContainer.innerHTML = `
+                            <div class="video-spotlight-box" style="width: 100%; max-width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-bottom: 30px; background: #000;">
+                                <video controls style="display: block; width: 100%; height: auto; object-fit: cover; max-height: 500px;" preload="metadata">
+                                    <source src="${videoSource}">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        `;
                     }
 
                     // 2. Render Written Notices Text System
@@ -377,23 +366,21 @@
                         noticesContainer.insertAdjacentHTML('beforeend', noticeHTML);
                     }
 
-                    // 3. Render Graphical Event Posters Sidebar (Non-Clickable & Fluid)
+                    // 3. Render Graphical Event Posters Sidebar
                     if (category === 'poster' && rawUrl) {
                         let finalImgUrl = rawUrl;
                         
                         if (driveId) {
+                            // Uses Google's cookie-less thumbnail delivery network
                             finalImgUrl = `https://drive.google.com/thumbnail?id=${driveId}&sz=w1200`;
                         } else if (rawUrl.includes('dropbox.com')) {
                             finalImgUrl = rawUrl.replace(/\?dl=0$/, '?raw=1').replace(/&dl=0$/, '&raw=1');
                         }
 
-                        // Removed the surrounding <a> tags so it is impossible to click out or redirect
+                        // Removed the <a> link wrapper to prevent clicking/redirecting. Added responsive object-fit.
                         const posterHTML = `
-                            <div class="poster-gallery" style="margin-bottom: 25px; width: 100%;">
-                                <img src="${finalImgUrl}" 
-                                     alt="${row.Title || 'CITAM Event Poster'}" 
-                                     class="poster-img" 
-                                     style="width: 100%; height: auto; border-radius: 8px; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.15); object-fit: cover; pointer-events: none;">
+                            <div class="poster-gallery" style="margin-bottom: 25px; width: 100%; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+                                <img src="${finalImgUrl}" alt="${row.Title || 'CITAM Event Poster'}" class="poster-img" style="width: 100%; height: auto; display: block; object-fit: cover; cursor: default;">
                             </div>
                         `;
                         postersContainer.insertAdjacentHTML('beforeend', posterHTML);
