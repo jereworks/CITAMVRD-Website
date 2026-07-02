@@ -290,33 +290,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-            // ⚠️ SETTINGS: PASTE YOUR PUBLISHED GOOGLE SHEET CSV EXPORT URL BELOW ⚠️
-const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0J3w-dcCeV-M23goOP2w39xdTw-zMygevoFtVM3zPhhe7huQ0d8OUvSlsRV3eoZjhEOnZq_W5Zg9/pub?gid=0&single=true&output=csv';
+            const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0J3w-dcCeV-M23goOP2w39xdTw-zMygevoFtVM3zPhhe7huQ0d8OUvSlsRV3eoZjhEOnZq_W5Zg9/pub?gid=0&single=true&output=csv';
 
-            /**
-             * Formats cloud drive standard links (Google Drive, Dropbox) into real download/stream endpoints
-             * @param {string} url - The row URL extracted from the Google Sheet column
-             */
-            function formatMediaUrl(url) {
-                if (!url) return '';
+            // Helper function to extract Google Drive file IDs reliably
+            function getGoogleDriveId(url) {
+                if (!url) return null;
                 url = url.trim();
-                
-                // 1. Google Drive Sharing Links Handler
                 const fileDMatch = url.match(/file\/d\/([^\/\?\&]+)/);
                 const idMatch = url.match(/[?&]id=([^\/\?\&]+)/);
-                const googleDriveId = (fileDMatch && fileDMatch[1]) || (idMatch && idMatch[1]);
-                
-                if (googleDriveId) {
-                    return `https://drive.google.com/uc?export=view&id=${googleDriveId}`;
-                }
-                
-                // 2. Dropbox Web Sharing Links Handler
-                if (url.includes('dropbox.com')) {
-                    return url.replace(/\?dl=0$/, '?raw=1').replace(/&dl=0$/, '&raw=1');
-                }
-                
-                // Return fallback URL (e.g., local storage files path: images/fast.png)
-                return url;
+                return (fileDMatch && fileDMatch[1]) || (idMatch && idMatch[1]) || null;
             }
 
             // Fetch Data using PapaParse Engine
@@ -339,7 +321,7 @@ const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0J3w-dcC
                 const noticesContainer = document.getElementById('dynamic-notices-container');
                 const postersContainer = document.getElementById('dynamic-posters-container');
 
-                // Clean existing workspace and reset view arrays
+                // Clear layout workspaces
                 videoContainer.innerHTML = '';
                 noticesContainer.innerHTML = '';
                 postersContainer.innerHTML = '';
@@ -348,18 +330,35 @@ const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0J3w-dcC
 
                 data.forEach(row => {
                     const category = row.Category ? row.Category.trim().toLowerCase() : '';
-                    const mediaURL = formatMediaUrl(row.MediaURL);
+                    const rawUrl = row.MediaURL ? row.MediaURL.trim() : '';
+                    const driveId = getGoogleDriveId(rawUrl);
 
                     // A. Setup Spotlight Video component
-                    if (category === 'video' && mediaURL) {
-                        videoContainer.innerHTML = `
-                            <div class="video-spotlight-box">
-                                <video controls width="100%" height="100%" preload="metadata">
-                                    <source src="${mediaURL}">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                        `;
+                    if (category === 'video' && rawUrl) {
+                        if (driveId) {
+                            // If it's a Google Drive link, embed it via an iframe player to bypass streaming blocks
+                            videoContainer.innerHTML = `
+                                <div class="video-spotlight-box" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                                    <iframe src="https://drive.google.com/file/d/${driveId}/preview" 
+                                            width="100%" 
+                                            height="100%" 
+                                            style="position: absolute; top: 0; left: 0; border: none; width: 100%; height: 100%;" 
+                                            allow="autoplay" 
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                            `;
+                        } else {
+                            // Standard fallback fallback for non-drive direct video paths (.mp4)
+                            videoContainer.innerHTML = `
+                                <div class="video-spotlight-box">
+                                    <video controls width="100%" height="100%" preload="metadata">
+                                        <source src="${rawUrl}">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            `;
+                        }
                     }
 
                     // B. Setup Written Notices text system
@@ -376,11 +375,19 @@ const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0J3w-dcC
                     }
 
                     // C. Setup Graphical Event Posters sidebar
-                    if (category === 'poster' && mediaURL) {
+                    if (category === 'poster' && rawUrl) {
+                        let finalImgUrl = rawUrl;
+                        if (driveId) {
+                            // Format to a clean direct-render URL for image tags
+                            finalImgUrl = `https://drive.google.com/uc?export=view&id=${driveId}`;
+                        } else if (rawUrl.includes('dropbox.com')) {
+                            finalImgUrl = rawUrl.replace(/\?dl=0$/, '?raw=1').replace(/&dl=0$/, '&raw=1');
+                        }
+
                         const posterHTML = `
-                            <div class="poster-gallery">
-                                <a href="${mediaURL}" target="_blank" class="poster-link">
-                                    <img src="${mediaURL}" alt="${row.Title || 'CITAM Event Poster'}" class="poster-img">
+                            <div class="poster-gallery" style="margin-bottom: 20px;">
+                                <a href="${finalImgUrl}" target="_blank" class="poster-link">
+                                    <img src="${finalImgUrl}" alt="${row.Title || 'CITAM Event Poster'}" class="poster-img" style="width: 100%; border-radius: 8px; display: block;">
                                 </a>
                             </div>
                         `;
@@ -388,7 +395,6 @@ const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0J3w-dcC
                     }
                 });
 
-                // Fail-safe default text if notices column list is empty
                 if (activeNoticeCount === 0) {
                     noticesContainer.innerHTML = '<p>No new notices listed for this week.</p>';
                 }
