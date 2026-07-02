@@ -5,33 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Events | CITAM Valley Road</title>
 
+    <!-- Add your Favicon here -->
     <link rel="icon" type="image/svg+xml" href="images/CITAMLOGO.svg">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- CSV parser used to read the Google Sheet event feed -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
 <body>
 
+    <!-- Artistic Cinematic Preloader -->
     <div id="citam-preloader">
         <div class="loader-artistic-canvas">
+            <!-- Counter-rotating ethereal rings -->
             <div class="loader-rings">
                 <div class="ring ring-outer"></div>
                 <div class="ring ring-inner"></div>
             </div>
             
+            <!-- Pulsing Center Logo -->
             <div class="loader-logo-wrapper">
                 <img src="images/CITAMLOGO.svg" alt="CITAM Logo" class="loader-logo-img">
             </div>
         </div>
         
+        <!-- Blur-reveal Typography -->
         <div class="loader-text-brand">
             <span class="loader-title">CITAM</span>
             <span class="loader-subtitle">Valley Road</span>
         </div>
     </div>
 
+    <!-- Top Contact Utility Bar -->
     <div class="top-bar">
         <div class="container top-bar-flex">
             <div class="top-info">
@@ -47,6 +54,7 @@
             </div>
         </div>
     </div>
+    <!-- Transparent Sticky Header Navigation -->
     <header class="header" id="header">
         <div class="container nav-container">
             
@@ -108,6 +116,7 @@
         </div>
     </header>
 
+    <!-- Events Listing System -->
     <section class="section bg-light">
         <div class="container">
             <div id="featured-events" class="grid-3 mt-4">
@@ -116,6 +125,7 @@
         </div>
     </section>
 
+    <!-- Calendar System -->
     <section id="calendar-section" class="section bg-white pt-0">
         <div class="container" style="max-width: 1000px;"> 
             <div class="calendar-header">
@@ -139,6 +149,7 @@
         </div>
     </section>
     
+    <!-- Footer System -->
     <footer class="footer">
         <div class="container grid-4">
             <div class="footer-col">
@@ -180,10 +191,11 @@
             </div>
         </div>
         <div class="footer-bottom text-center">
-            <p>© 2026 CITAM Valley Road. Built by <a href="https://j3r3m16h.netlify.app/" target="_parent" style="color: red;">Jeremiah</a>. All Rights Reserved.</p>
+            <p>&copy; 2026 CITAM Valley Road. Built by <a href="https://j3r3m16h.netlify.app/" target="_parent" style="color: red;">Jeremiah</a>. All Rights Reserved.</p>
         </div>
     </footer>
 
+    <!-- Cookie Consent Banner -->
     <div id="cookie-consent-banner" class="cookie-banner">
         <div class="container cookie-container">
             <div class="cookie-content">
@@ -200,6 +212,7 @@
         </div>
     </div>
 
+    <!-- Cinematic Announcement Nudge -->
     <div id="announcement-popup" class="announcement-nudge">
         <div class="nudge-visual">
             <i class="fas fa-calendar-alt"></i>
@@ -216,7 +229,8 @@
         </div>
     </div>
 
-     <script>
+     <!-- Core JavaScript Logic -->
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const header = document.getElementById('header');
             window.addEventListener('scroll', () => {
@@ -341,7 +355,7 @@
                         if (rawImg.includes('drive.google.com')) {
                             const match = rawImg.match(/\/d\/([a-zA-Z0-9_-]+)/);
                             if (match && match[1]) {
-                                cleanImg = `https://lh3.googleusercontent.com/d/$${match[1]}`;
+                                cleanImg = `https://lh3.googleusercontent.com/d/${match[1]}`;
                             }
                         } else if (rawImg) {
                             cleanImg = rawImg;
@@ -356,7 +370,7 @@
                             location: r['location'] || 'Main Sanctuary',
                             description: r['description'] || '',
                             image: cleanImg,
-                            form_url: r['form_url'] || '', // Updated to remove '#' fallback
+                            form_url: r['form_url'] || '#',
                             button_text: r['button_text'] || 'Register',
                             featured: (r['featured'] || '').toUpperCase() === 'TRUE'
                         };
@@ -421,7 +435,7 @@
                                 <span><i class="far fa-clock"></i> ${ev.time}</span>
                                 <span><i class="fas fa-map-marker-alt"></i> ${ev.location}</span>
                             </p>
-                            ${ev.form_url ? `<a href="${ev.form_url}" class="btn btn-primary btn-full mt-2">${ev.button_text}</a>` : ''}
+                            <a href="${ev.form_url}" class="btn btn-primary btn-full mt-2">${ev.button_text}</a>
                         </div>
                     </article>`;
             }).join('');
