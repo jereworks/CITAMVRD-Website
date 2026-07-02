@@ -249,7 +249,7 @@
                 <p style="text-align:center; grid-column: 1 / -1; color: var(--text-muted); padding: 4rem 0;">Loading events…</p>
             </div>
             
-            <div class="text-center mt-4">
+            <div class="text-center mt-4 animate-on-scroll reveal-up">
                 <a href="events.html" class="btn btn-primary">View All Events</a>
             </div>
         </div>
@@ -734,8 +734,8 @@
                         </article>`;
                 }).join('');
 
-                // Trigger animations for the newly injected event cards safely
-                document.querySelectorAll('#featured-events .animate-on-scroll').forEach(el => {
+                // Trigger animations for the newly injected event cards AND the view all events button container safely
+                document.querySelectorAll('#featured-events .animate-on-scroll, #events > .container > .animate-on-scroll').forEach(el => {
                     setTimeout(() => { el.classList.add('active'); }, 100);
                 });
             }
