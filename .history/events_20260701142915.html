@@ -117,6 +117,8 @@
     </header>
 
     <!-- Events Listing System -->
+    <!-- These 3 featured cards are now generated automatically from the Google Sheet.
+         Do not add <article> cards here by hand — edit the sheet instead. -->
     <section class="section bg-light">
         <div class="container">
             <div id="featured-events" class="grid-3 mt-4">
@@ -127,8 +129,7 @@
 
     <!-- Calendar System -->
     <section id="calendar-section" class="section bg-white pt-0">
-        <div class="container" style="max-width: 1000px;"> 
-            <div class="calendar-header">
+        <div class="container" style="max-width: 1000px;"> <div class="calendar-header">
                 <button id="prev-month" class="btn btn-outline compact-nav-btn">
                     <i class="fas fa-chevron-left"></i>
                 </button>
@@ -142,10 +143,13 @@
                 <div class="calendar-days-header">
                     <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
                 </div>
-                <div id="calendar-grid" class="calendar-grid"></div>
+                <div id="calendar-grid" class="calendar-grid">
+                    </div>
             </div>
 
-            <div id="day-details-drawer" class="day-details-drawer"></div>
+            <div id="day-details-drawer" class="day-details-drawer">
+                </div>
+
         </div>
     </section>
     
@@ -224,14 +228,17 @@
         </div>
         
         <div class="nudge-actions">
+            <!-- New Primary Button Style for Ignore -->
             <button id="nudge-ignore" class="btn-nudge-secondary">Maybe later</button>
+            <!-- Retaining Primary Action -->
             <a href="announcements.html" class="btn btn-primary">View Now</a>
         </div>
     </div>
 
-     <!-- Core JavaScript Logic -->
+     <!-- Core JavaScript Logic Added Directly -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Sticky Header Functionality
             const header = document.getElementById('header');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) {
@@ -241,6 +248,7 @@
                 }
             });
 
+            // Mobile Menu Toggle
             const hamburger = document.getElementById('hamburger');
             const navMenu = document.getElementById('nav-menu');
             if(hamburger && navMenu) {
@@ -249,6 +257,7 @@
                 });
             }
 
+            // Scroll Reveal Animations via Intersection Observer
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
@@ -281,9 +290,18 @@
         let currentDate = new Date();
         let selectedDateString = formatDateString(currentDate);
 
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRron9LFqj98Z3u23FRWiCqtYXktZCvUFTcFfds4pfDvWRilN-G1e_nQtAOlPn2HHnK5A71TzDhe1Vr/pub?gid=0&single=true&output=csv';
+        // =====================================================================
+        // EVENT DATA SOURCE
+        // Paste the "Publish to web -> CSV" link from your Google Sheet below.
+        // Sheet header row must be exactly:
+        // title | tag | date | end_date | time | location | description | image_url | form_url | button_text | featured
+        // date/end_date format: YYYY-MM-DD. Leave end_date blank for single-day events.
+        // image_url: a public direct link to the photo (Imgur, Google Drive, Cloudinary, etc.)
+        // — not a filename. Leave blank to use a default placeholder image.
+        // =====================================================================
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/17tKhcCBPFwVwYLRm3jIUvUOlA0NZ0Lew6lK0F90RIjI/edit?usp=sharing';
 
-        let specialEvents = [];
+        let specialEvents = []; // populated from the sheet once it loads
 
         function formatDateString(dateObj) {
             const y = dateObj.getFullYear();
@@ -321,6 +339,8 @@
             return services;
         }
 
+        // Fetches the sheet, drops anything already past, expands multi-day
+        // events into one calendar entry per day, and builds the featured cards.
         async function loadEventsFromSheet() {
             const todayStr = formatDateString(new Date());
 
@@ -335,49 +355,24 @@
                 const response = await fetch(SHEET_CSV_URL);
                 const csvText = await response.text();
                 const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
-                
-                // Defensive normalizer against case discrepancies and spaces in headers
-                const cleanedRows = parsed.data.map(row => {
-                    const cleanedRow = {};
-                    for (let key in row) {
-                        if (key) {
-                            cleanedRow[key.trim().toLowerCase()] = row[key] ? row[key].trim() : '';
-                        }
-                    }
-                    return cleanedRow;
-                });
+                const rows = parsed.data
+                    .map(r => ({
+                        title: (r.title || '').trim(),
+                        tag: (r.tag || '').trim(),
+                        date: (r.date || '').trim(),
+                        end_date: (r.end_date || '').trim(),
+                        time: (r.time || '').trim(),
+                        location: (r.location || '').trim() || 'Main Sanctuary',
+                        description: (r.description || '').trim(),
+                        image: (r.image_url || '').trim() || 'images/events.svg',
+                        form_url: (r.form_url || '').trim() || '#',
+                        button_text: (r.button_text || '').trim() || 'Register',
+                        featured: (r.featured || '').trim().toUpperCase() === 'TRUE'
+                    }))
+                    .filter(r => r.date) // must have a start date
+                    .filter(r => (r.end_date || r.date) >= todayStr); // drop expired events
 
-                const rows = cleanedRows
-                    .map(r => {
-                        // Dynamically format raw Google Drive asset links into direct-render image URLs
-                        let rawImg = r['image_url'] || '';
-                        let cleanImg = 'images/events.svg';
-                        if (rawImg.includes('drive.google.com')) {
-                            const match = rawImg.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                            if (match && match[1]) {
-                                cleanImg = `https://lh3.googleusercontent.com/d/${match[1]}`;
-                            }
-                        } else if (rawImg) {
-                            cleanImg = rawImg;
-                        }
-
-                        return {
-                            title: r['title'] || '',
-                            tag: r['tag'] || '',
-                            date: r['date'] || '',
-                            end_date: r['end_date'] || '',
-                            time: r['time'] || '',
-                            location: r['location'] || 'Main Sanctuary',
-                            description: r['description'] || '',
-                            image: cleanImg,
-                            form_url: r['form_url'] || '#',
-                            button_text: r['button_text'] || 'Register',
-                            featured: (r['featured'] || '').toUpperCase() === 'TRUE'
-                        };
-                    })
-                    .filter(r => r.date)
-                    .filter(r => (r.end_date || r.date) >= todayStr);
-
+                // Expand multi-day events into one calendar entry per day
                 const expanded = [];
                 rows.forEach(r => {
                     const end = r.end_date || r.date;
@@ -397,6 +392,8 @@
 
                 specialEvents = expanded;
 
+                // Featured cards: sheet rows marked featured=TRUE, soonest first;
+                // if none are marked, fall back to the 3 soonest upcoming events.
                 const sorted = [...rows].sort((a, b) => a.date.localeCompare(b.date));
                 const marked = sorted.filter(r => r.featured);
                 renderFeaturedEvents((marked.length ? marked : sorted).slice(0, 3));
@@ -440,6 +437,7 @@
                     </article>`;
             }).join('');
 
+            // Re-observe the newly injected cards so scroll animations still work
             document.querySelectorAll('#featured-events .animate-on-scroll').forEach(el => {
                 el.classList.add('active');
             });
@@ -460,12 +458,14 @@
             const monthlyDataPool = [...specialEvents, ...generateSundayServices(year, month)];
             const systemTodayStr = formatDateString(new Date());
 
+            // 1. Structural Pre-Padding (Preserves standard column positioning)
             for (let i = 0; i < firstDayIndex; i++) {
                 const emptyCell = document.createElement('div');
                 emptyCell.className = 'calendar-day empty-cell';
                 calendarGrid.appendChild(emptyCell);
             }
 
+            // 2. Symmetrical Active Date Generators
             for (let day = 1; day <= totalDays; day++) {
                 const dayCell = document.createElement('div');
                 dayCell.className = 'calendar-day';
@@ -490,7 +490,7 @@
                     dayEvents.forEach(event => {
                         textBlocksHtml += `
                             <div class="calendar-event">
-                                <span class="event-time">${event.time.split('—')[0].split('-')[0].trim()}</span>
+                                <span class="event-time">${event.time.split('—')[0].trim()}</span>
                                 <h4>${event.title}</h4>
                             </div>`;
                         
@@ -513,6 +513,7 @@
                 calendarGrid.appendChild(dayCell);
             }
 
+            // Keep content sync updated
             const initiallySelectedEvents = monthlyDataPool.filter(e => e.date === selectedDateString);
             updateDetailsDrawer(initiallySelectedEvents, selectedDateString);
         }
@@ -560,9 +561,13 @@
     // Artistic Preloader Logic
         window.addEventListener('load', () => {
             const preloader = document.getElementById('citam-preloader');
+            
             if (preloader) {
+                // Wait an extra 800ms so the text blur-reveal finishes nicely
                 setTimeout(() => {
                     preloader.classList.add('preloader-hidden');
+                    
+                    // Remove from DOM strictly after the 1-second CSS fade completes
                     setTimeout(() => {
                         preloader.style.display = 'none';
                     }, 1000); 
@@ -576,14 +581,17 @@
             const acceptBtn = document.getElementById('accept-cookies');
             const declineBtn = document.getElementById('decline-cookies');
 
+            // Check if the user has already made a choice
             const cookieConsent = localStorage.getItem('citam_cookie_consent');
 
             if (!cookieConsent && cookieBanner) {
+                // Delay showing the banner slightly so it doesn't fight with the preloader
                 setTimeout(() => {
                     cookieBanner.classList.add('show-banner');
-                }, 2000);
+                }, 2000); // Shows 2 seconds after page load
             }
 
+            // Handle Accept
             if (acceptBtn) {
                 acceptBtn.addEventListener('click', () => {
                     localStorage.setItem('citam_cookie_consent', 'accepted');
@@ -591,6 +599,7 @@
                 });
             }
 
+            // Handle Decline
             if (declineBtn) {
                 declineBtn.addEventListener('click', () => {
                     localStorage.setItem('citam_cookie_consent', 'declined');
