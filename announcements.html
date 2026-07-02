@@ -291,13 +291,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             
             // ⚠️ SETTINGS: PASTE YOUR PUBLISHED GOOGLE SHEET CSV EXPORT URL BELOW ⚠️
-            const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0J3w-dcCeV-M23goOP2w39xdTw-zMygevoFtVM3zPhhe7huQ0d8OUvSlsRV3eoZjhEOnZq_W5Zg9/pub?gid=0&single=true&output=csv';
-
-            if (sheetCSVUrl === 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0J3w-dcCeV-M23goOP2w39xdTw-zMygevoFtVM3zPhhe7huQ0d8OUvSlsRV3eoZjhEOnZq_W5Zg9/pub?gid=0&single=true&output=csv') {
-                document.getElementById('dynamic-notices-container').innerHTML = 
-                    '<p style="color: #d9534f; font-weight: 500;"><strong>Configuration Required</strong> </p>';
-                return;
-            }
+const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJ0J3w-dcCeV-M23goOP2w39xdTw-zMygevoFtVM3zPhhe7huQ0d8OUvSlsRV3eoZjhEOnZq_W5Zg9/pub?gid=0&single=true&output=csv';
 
             /**
              * Formats cloud drive standard links (Google Drive, Dropbox) into real download/stream endpoints
