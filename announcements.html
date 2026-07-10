@@ -12,6 +12,51 @@
     <link rel="stylesheet" href="css/style.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+    <style>
+        /* Responsive video frame: scales with the column width on any device,
+           keeps a 16:9 shape, and never lets the video spill outside the box. */
+        .video-spotlight-box {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            aspect-ratio: 16 / 9;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            background: #000;
+            box-sizing: border-box;
+        }
+        .video-spotlight-box iframe,
+        .video-spotlight-box video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        .video-spotlight-box video {
+            object-fit: contain; /* only meaningful for raw <video> files; keeps whole picture visible */
+        }
+        /* Fallback for older browsers without aspect-ratio support */
+        @supports not (aspect-ratio: 16 / 9) {
+            .video-spotlight-box {
+                height: 0;
+                padding-bottom: 56.25%;
+            }
+        }
+        /* Cap the height on very large screens so it doesn't get oversized */
+        @media (min-width: 1400px) {
+            .video-spotlight-box {
+                max-height: 560px;
+                aspect-ratio: auto;
+                height: 560px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -41,10 +86,11 @@
                 <span><i class="fas fa-map-marker-alt"></i> 28 Valley Rd, Nairobi, Kenya</span>
             </div>
             <div class="top-social">
-                <a href="https://www.facebook.com/citamvrdke" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://x.com/CitamVrdKE" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.instagram.com/citamvrdke/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.youtube.com/@CITAMValleyRoadNPC" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.facebook.com/citamvrdke" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://x.com/CitamVrdKE" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/citamvrdke/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@CITAMValleyRoadNPC" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.whatsapp.com/channel/1F4E2C3A-5B6D-4A7B-8C9D-0E1F2A3B4C5D" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
     </div>
@@ -149,6 +195,7 @@
                     <a href="https://x.com/CitamVrdKE" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
                     <a href="https://www.instagram.com/citamvrdke/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.youtube.com/@CITAMValleyRoadNPC" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.whatsapp.com/channel/1F4E2C3A-5B6D-4A7B-8C9D-0E1F2A3B4C5D" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>  
             <div class="footer-col">    
@@ -336,21 +383,62 @@
 
                     // 1. Render Spotlight Video Component
                     if (category === 'video' && rawUrl) {
-                        // Using native HTML5 video player to prevent redirects and enforce responsive framing
-                        let videoSource = rawUrl;
-                        if (driveId) {
-                            // Using the download endpoint forces Drive to stream the raw mp4, stripping the Google UI
-                            videoSource = `https://drive.google.com/uc?export=download&id=${driveId}`;
-                        }
+                        let videoHTML = '';
                         
-                        videoContainer.innerHTML = `
-                            <div class="video-spotlight-box" style="width: 100%; max-width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-bottom: 30px; background: #000;">
-                                <video controls style="display: block; width: 100%; height: auto; object-fit: cover; max-height: 500px;" preload="metadata">
-                                    <source src="${videoSource}">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                        `;
+                        // Scenario A: Video is hosted on YouTube
+                        if (rawUrl.includes('youtube.com') || rawUrl.includes('youtu.be')) {
+                            let ytId = '';
+                            if (rawUrl.includes('youtu.be/')) {
+                                ytId = rawUrl.split('youtu.be/')[1].split('?')[0];
+                            } else if (rawUrl.includes('v=')) {
+                                ytId = rawUrl.split('v=')[1].split('&')[0];
+                            }
+                            
+                            videoHTML = `
+                                <div class="video-spotlight-box">
+                                    <iframe src="https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1" 
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                            `;
+                        } 
+                        // Scenario B: Google Drive file — must use the iframe preview endpoint,
+                        // not a <video> tag. Drive's "uc?export=download" link is a download
+                        // endpoint, not a real media stream: it doesn't reliably support the
+                        // range requests <video> needs, and for larger files it returns an
+                        // HTML "can't scan for viruses" confirmation page instead of the file.
+                        else if (driveId) {
+                            videoHTML = `
+                                <div class="video-spotlight-box">
+                                    <iframe src="https://drive.google.com/file/d/${driveId}/preview"
+                                            referrerpolicy="no-referrer"
+                                            allow="autoplay"
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                            `;
+                        }
+                        // Scenario C: Standard raw file or Dropbox file — these ARE real
+                        // streamable video files, so a <video> tag works fine here.
+                        else {
+                            let videoSource = rawUrl;
+
+                            if (rawUrl.includes('dropbox.com')) {
+                                // Dropbox stream translation
+                                videoSource = rawUrl.replace(/\?dl=0$/, '?raw=1').replace(/&dl=0$/, '&raw=1');
+                            }
+
+                            videoHTML = `
+                                <div class="video-spotlight-box">
+                                    <video controls preload="metadata" style="outline: none;">
+                                        <source src="${videoSource}">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            `;
+                        }
+                        videoContainer.innerHTML = videoHTML;
                     }
 
                     // 2. Render Written Notices Text System
@@ -371,16 +459,16 @@
                         let finalImgUrl = rawUrl;
                         
                         if (driveId) {
-                            // Uses Google's cookie-less thumbnail delivery network
+                            // Uses Google's cookie-less thumbnail delivery
                             finalImgUrl = `https://drive.google.com/thumbnail?id=${driveId}&sz=w1200`;
                         } else if (rawUrl.includes('dropbox.com')) {
                             finalImgUrl = rawUrl.replace(/\?dl=0$/, '?raw=1').replace(/&dl=0$/, '&raw=1');
                         }
 
-                        // Removed the <a> link wrapper to prevent clicking/redirecting. Added responsive object-fit.
+                        // Image rendered cleanly without an anchor link wrapper
                         const posterHTML = `
-                            <div class="poster-gallery" style="margin-bottom: 25px; width: 100%; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
-                                <img src="${finalImgUrl}" alt="${row.Title || 'CITAM Event Poster'}" class="poster-img" style="width: 100%; height: auto; display: block; object-fit: cover; cursor: default;">
+                            <div class="poster-gallery" style="margin-bottom: 25px; width: 100%; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.15); background: #f9f9f9;">
+                                <img src="${finalImgUrl}" alt="${row.Title || 'CITAM Event Poster'}" class="poster-img" referrerpolicy="no-referrer" loading="lazy" style="width: 100%; height: auto; display: block; object-fit: cover; cursor: default;" onerror="this.parentElement.style.display='none';">
                             </div>
                         `;
                         postersContainer.insertAdjacentHTML('beforeend', posterHTML);

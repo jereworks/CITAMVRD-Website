@@ -2474,6 +2474,35 @@ h1, h2, h3, h4, h5 {
     margin-bottom: 30px;
 }
 
+/* 1. Target your specific dynamic container */
+#dynamic-video-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px; /* Adjust this if you want it wider/narrower in the main-column */
+    margin: 0 auto 30px auto; 
+    
+    /* The Bulletproof 16:9 Trick */
+    padding-bottom: 56.25%; 
+    height: 0; 
+    
+    overflow: hidden;
+    background-color: #000;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* 2. Target the iframe injected inside it */
+#dynamic-video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    /* Forces the iframe to perfectly map to the container */
+    width: 100% !important; 
+    height: 100% !important; 
+    border: 0;
+}
+
 /* Ensure the video fills the container perfectly */
 .video-spotlight-box video {
     width: 100%;
