@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteBase /
+
+# 1. Externally redirect user-typed .html URL to clean URL (e.g., /give.html -> /give)
+RewriteCond %{THE_REQUEST} ^GET\s(.*)\.html\sHTTP [NC]
+RewriteRule ^(.*)\.html$ $1 [R=301,L]
+
+# 2. Internally serve the .html file when a clean URL is requested (e.g., /give -> /give.html)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
