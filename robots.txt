@@ -1,4 +1,6 @@
+# Allow all search engines to crawl and index the site
 User-agent: *
 Allow: /
 
+# Direct search engine crawlers to your sitemap
 Sitemap: https://valleyroad.citam.org/sitemap.xml
