@@ -36,10 +36,26 @@ RewriteRule ^(.*)$ $1.html [NC,L]
 </IfModule>
 RewriteCond %{HTTP_HOST} ^valleyroad\.citam\.org$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.valleyroad\.citam\.org$
-RewriteRule ^live\-service\-today\/$ "https\:\/\/valleyroad\.citam\.org\/sermons" [R=301,L]
+RewriteRule ^sermon$ "https\:\/\/valleyroad\.citam\.org\/sermons" [R=301,L]
 RewriteCond %{HTTP_HOST} ^valleyroad\.citam\.org$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.valleyroad\.citam\.org$
-RewriteRule ^our\-history\/$ "https\:\/\/valleyroad\.citam\.org\/about" [R=301,L]
+RewriteRule ^live\-service\-today$ "https\:\/\/valleyroad\.citam\.org\/sermons" [R=301,L]
 RewriteCond %{HTTP_HOST} ^valleyroad\.citam\.org$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.valleyroad\.citam\.org$
-RewriteRule ^pastoral\-team\/$ "https\:\/\/valleyroad\.citam\.org\/about" [R=301,L]
+RewriteRule ^our\-history$ "https\:\/\/valleyroad\.citam\.org\/about" [R=301,L]
+RewriteCond %{HTTP_HOST} ^valleyroad\.citam\.org$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.valleyroad\.citam\.org$
+RewriteRule ^mission\-vision$ "https\:\/\/valleyroad\.citam\.org\/about" [R=301,L]
+RewriteCond %{HTTP_HOST} ^valleyroad\.citam\.org$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.valleyroad\.citam\.org$
+RewriteRule ^pastoral\-team$ "https\:\/\/valleyroad\.citam\.org\/about" [R=301,L]
+RewriteCond %{HTTP_HOST} ^valleyroad\.citam\.org$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.valleyroad\.citam\.org$
+RewriteRule ^contact\-us\-2$ "https\:\/\/valleyroad\.citam\.org\/contact" [R=301,L]
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php83” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php83 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
