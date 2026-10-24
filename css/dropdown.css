@@ -1,0 +1,65 @@
+/* ==========================================================================
+   NAVBAR DROPDOWN SYSTEM
+   ========================================================================== */
+.nav-list .dropdown {
+    position: relative;
+}
+
+.nav-list .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #111111;
+    min-width: 180px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    border-radius: 4px;
+    list-style: none;
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: var(--transition-smooth);
+    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-list .dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-list .dropdown-menu li a {
+    display: block;
+    padding: 10px 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.nav-list .dropdown-menu li a:hover {
+    color: var(--primary);
+}
+
+/* Mobile Dropdown Adjustments */
+@media (max-width: 991px) {
+    .nav-list .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: rgba(0, 0, 0, 0.2);
+        border: none;
+        padding: 0;
+        margin-top: 5px;
+    }
+    .nav-list .dropdown-menu li a {
+        text-align: center;
+        padding: 10px;
+        font-size: 0.78rem;
+        color: #bbb;
+    }
+}

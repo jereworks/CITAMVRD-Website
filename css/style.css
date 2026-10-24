@@ -499,7 +499,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .nav-list a:hover, .nav-list a.active {
-    color: var(--white);
+    color: var(--primary);
 }
 
 .nav-actions { display: flex; align-items: center; gap: 20px; }
