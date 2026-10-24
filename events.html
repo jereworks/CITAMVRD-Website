@@ -415,35 +415,36 @@
 
                 // Process and filter event data
                 const rows = cleanedRows
-                    .map(r => {
-                        // Convert Google Drive image links to direct renderable URLs
-                        let rawImg = r['image_url'] || '';
-                        let cleanImg = 'images/events.svg';
-                        if (rawImg.includes('drive.google.com')) {
-                            const match = rawImg.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                            if (match && match[1]) {
-                                cleanImg = `https://lh3.googleusercontent.com/d/$${match[1]}`;
+                        .map(r => {
+                            let rawImg = r['image_url'] || r['image'] || '';
+                            let cleanImg = 'images/events.svg'; // Fallback image
+                            
+                            // High-performance Google Drive direct image mapping fix
+                            if (rawImg.includes('drive.google.com')) {
+                                const match = rawImg.match(/\/d\/([a-zA-Z0-9_-]+)/) || rawImg.match(/id=([a-zA-Z0-9_-]+)/);
+                                if (match && match[1]) {
+                                    cleanImg = `https://lh3.googleusercontent.com/d/${match[1]}`;
+                                }
+                            } else if (rawImg) {
+                                cleanImg = rawImg;
                             }
-                        } else if (rawImg) {
-                            cleanImg = rawImg;
-                        }
 
-                        return {
-                            title: r['title'] || '',
-                            tag: r['tag'] || '',
-                            date: r['date'] || '',
-                            end_date: r['end_date'] || '',
-                            time: r['time'] || '',
-                            location: r['location'] || 'Main Sanctuary',
-                            description: r['description'] || '',
-                            image: cleanImg,
-                            form_url: r['form_url'] || '', // Registration form URL
-                            button_text: r['button_text'] || 'Register',
-                            featured: (r['featured'] || '').toUpperCase() === 'TRUE'
-                        };
-                    })
-                    .filter(r => r.date) // Remove events without dates
-                    .filter(r => (r.end_date || r.date) >= todayStr); // Only show future or current events
+                            return {
+                                title: r['title'] || '',
+                                tag: r['tag'] || 'Special Event',
+                                date: r['date'] || '',
+                                end_date: r['end_date'] || '',
+                                time: r['time'] || 'See Details',
+                                location: r['location'] || 'Main Sanctuary',
+                                description: r['description'] || '',
+                                image: cleanImg,
+                                form_url: r['form_url'] || r['form url'] || r['link'] || '', 
+                                button_text: r['button_text'] || r['button text'] || '',
+                                featured: (r['featured'] || '').toUpperCase() === 'TRUE'
+                            };
+                        })
+                        .filter(r => r.date)
+                        .filter(r => (r.end_date || r.date) >= todayStr);
 
                 // Expand multi-day events into individual day entries
                 const expanded = [];
