@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!sermonGrid) return;
 
     // Paste your deployed Google Apps Script Web App URL below
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbwJtcdaCvj-YIlL50sAjJiWxrME8V6Vb_RmEk60l1h1yb5Dl7KX6Q8hXGix1x5GgQLeUg/exec';
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbyhqJLQ3zvNOCokqEU6z3ZtDwvxCJf7V6IzaAqEaOmsWKyz_dv0y3OmDsG1PF6BhrAM0g/exec';
 
     fetch(scriptUrl, { redirect: 'follow' })
         .then(response => {
